@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Wilson Oliveira Lima">
+  <meta name="description" content="Telefones, endereço, horários e formulário de contato do Pata Amiga Petshop.">
+  <title>Contato | Pata Amiga Petshop</title>
+</head>
+<body>
+<!-- ================= CABEÇALHO ================= -->
+<header>
+  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
+  <h1>Pata Amiga Petshop</h1>
+  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
+  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+
+  <address>
+    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
+    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a>
+  </address>
+
+  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+
+  <!-- Menu principal de navegação, repetido em todas as páginas -->
+  <nav aria-label="Menu principal">
+    <h2>Navegação</h2>
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="acessorios.html">Acessórios</a></li>
+      <li><a href="racoes.html">Rações</a></li>
+      <li><a href="higiene.html">Higiene e Limpeza</a></li>
+      <li><a href="servicos.html">Serviços</a></li>
+      <li><a href="contato.html" aria-current="page"><strong>Contato</strong></a></li>
+      <li><a href="ajuda.html">Ajuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<hr>
+<main>
+  <h2>Fale com o Pata Amiga</h2>
+  <p>
+    Use os canais abaixo para reservar produtos, agendar banho e tosa ou tirar dúvidas sobre a tele-busca.
+    Respondemos as mensagens em até um dia útil.
+  </p>
+
+  <h3>Canais de atendimento</h3>
+  <dl>
+    <dt>Telefone da loja</dt>
+    <dd><a href="tel:+555139990000">(51) 3999-0000</a> &ndash; segunda a sexta, das 8h às 19h.</dd>
+
+    <dt>WhatsApp</dt>
+    <dd><a href="tel:+5551999990000">(51) 99999-0000</a> &ndash; agendamentos e tele-busca.</dd>
+
+    <dt>E-mail</dt>
+    <dd><a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a></dd>
+
+    <dt>Endereço</dt>
+    <dd>Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício).</dd>
+  </dl>
+
+  <hr>
+
+  <h3>Formulário de contato</h3>
+  <p>
+    Preencha os campos abaixo. <em>Nesta Fase 1 o formulário é apenas a estrutura em HTML: o envio
+    das mensagens será programado na Fase 2, com JavaScript.</em>
+  </p>
+
+  <form action="#" method="post">
+    <fieldset>
+      <legend>Dados do tutor</legend>
+
+      <p>
+        <label for="nome">Nome completo:</label><br>
+        <input type="text" id="nome" name="nome" size="40" required>
+      </p>
+
+      <p>
+        <label for="email">E-mail:</label><br>
+        <input type="email" id="email" name="email" size="40" required>
+      </p>
+
+      <p>
+        <label for="telefone">Telefone com DDD:</label><br>
+        <input type="tel" id="telefone" name="telefone" size="20" placeholder="(51) 99999-0000">
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Dados do atendimento</legend>
+
+      <p>
+        <label for="assunto">Assunto:</label><br>
+        <select id="assunto" name="assunto">
+          <option value="produtos">Reserva de produtos</option>
+          <option value="banho">Agendamento de banho</option>
+          <option value="tosa">Agendamento de tosa</option>
+          <option value="duvida">Dúvidas em geral</option>
+        </select>
+      </p>
+
+      <p>
+        Deseja tele-busca (leva e traz)?<br>
+        <input type="radio" id="tele-sim" name="telebusca" value="sim">
+        <label for="tele-sim">Sim, acrescentar R$ 25,00</label><br>
+        <input type="radio" id="tele-nao" name="telebusca" value="nao" checked>
+        <label for="tele-nao">Não, levarei o animal até a loja</label>
+      </p>
+
+      <p>
+        <label for="mensagem">Mensagem:</label><br>
+        <textarea id="mensagem" name="mensagem" rows="6" cols="50"></textarea>
+      </p>
+    </fieldset>
+
+    <p>
+      <button type="submit">Enviar mensagem</button>
+      <button type="reset">Limpar campos</button>
+    </p>
+  </form>
+
+  <hr>
+
+  <h3>Como chegar</h3>
+  <ul>
+    <li>Ônibus: linhas que atendem a Rua das Patinhas, com parada em frente ao número 250.</li>
+    <li>Carro: estacionamento gratuito para clientes, com 12 vagas.</li>
+    <li>A pé: entrada principal pela Rua das Patinhas, ao lado da agência bancária.</li>
+  </ul>
+</main>
+
+<hr>
+
+<!-- ================= RODAPÉ ================= -->
+<footer>
+  <h2>Pata Amiga Petshop</h2>
+
+  <address>
+    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
+    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
+    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a><br>
+    CNPJ (fictício): 12.345.678/0001-90
+  </address>
+
+  <nav aria-label="Navegação do rodapé">
+    <p><a href="index.html">Início</a> &nbsp;|&nbsp; <a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="racoes.html">Rações</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="servicos.html">Serviços</a> &nbsp;|&nbsp; <a href="ajuda.html">Ajuda</a></p>
+  </nav>
+
+  <p><small>
+    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
+    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
+    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
+    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
+    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
+    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
+    <a href="ajuda.html#privacidade">Política de privacidade</a>.
+  </small></p>
+</footer>
+
+</body>
+</html>
