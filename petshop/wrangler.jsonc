@@ -1,0 +1,14 @@
+{
+  // Configuracao do Cloudflare Workers para hospedar o site estatico do petshop.
+  // Deploy: npx wrangler deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pata-amiga-petshop",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
