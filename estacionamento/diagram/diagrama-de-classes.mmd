@@ -1,0 +1,207 @@
+---
+title: Sistema de Controle de Estacionamento - EstACME (Fase 1)
+---
+classDiagram
+    direction TB
+
+    %% ------------------------------------------------------------------
+    %% Classes obrigatórias da Figura 1 do documento do projeto
+    %% ------------------------------------------------------------------
+
+    class App {
+        -CadastroClientes cadastro
+        -RegistroDeEntradas_E_Saidas registro
+        -RelatoriosGerenciais relatorios
+        -String pastaDados
+        +iniciar() App
+        +encerrar() void
+        +entrada(placa, dataHora) TicketEstacionamento
+        +saida(placa, dataHora, opcoes) TicketEstacionamento
+        +mostrarSituacao(documento) Object
+        +mostrarRelatorios(ano) void
+    }
+
+    class RelatoriosGerenciais {
+        -RegistroDeEntradas_E_Saidas registro
+        -CadastroClientes cadastro
+        +arrecadacao(inicio, fim, categorias) Object
+        +arrecadacaoPorCategoria(inicio, fim) Object
+        +situacaoDoCliente(documento) Object
+        +registrosDoCliente(documento, inicio, fim) TicketEstacionamento[]
+        +registrosDeAvulsos(inicio, fim) TicketEstacionamento[]
+        +impedidosDeEntrar() Object[]
+        +clientesMaisFrequentes(ano, limite) Object[]
+        +emTexto(ano) String
+    }
+
+    class RegistroDeEntradas_E_Saidas {
+        -CadastroClientes cadastro
+        -Tarifas tarifas
+        -PoliticaDescontos politicaDescontos
+        -TicketEstacionamento[] tickets
+        -Map~String,TicketEstacionamento~ ticketsAbertos
+        -Set~String~ placasBloqueadas
+        +autorizarEntrada(placa, entrada) TicketEstacionamento
+        +processarSaida(placa, saida, opcoes) TicketEstacionamento
+        +placasNoPatioDoCliente(cliente) String[]
+        +consultarPorPlaca(placa, inicio, fim) TicketEstacionamento[]
+        +consultarPorCliente(cliente, inicio, fim) TicketEstacionamento[]
+        +consultarAvulsos(inicio, fim) TicketEstacionamento[]
+        +bloquearPlaca(placa) void
+        +carregarDeTextoCSV(conteudo) number
+        +paraTextoCSV() String
+    }
+
+    class TicketEstacionamento {
+        -number id
+        -Placa placa
+        -String tipoCliente
+        -String documentoCliente
+        -Date entrada
+        -Date saida
+        -number custo
+        -String identificadorDesconto
+        -number valorDesconto
+        -number valorDevido
+        -number valorPago
+        +estaAberto() boolean
+        +periodos(saidaPrevista) Periodo[]
+        +quantidadeDiarias(saidaPrevista) number
+        +fechar(saida, dados) void
+        +paraCSV() String
+        +deCSV(linha, identificar)$ TicketEstacionamento
+    }
+
+    class CadastroClientes {
+        -Map~String,Cliente~ clientesPorDocumento
+        -Map~String,Cliente~ clientePorPlaca
+        -Set~String~ placasCadastradas
+        +cadastrarCliente(cliente) Cliente
+        +removerCliente(documento) Cliente
+        +adicionarPlaca(documento, placa) String
+        +removerPlaca(documento, placa) String
+        +buscarPorDocumento(documento) Cliente
+        +buscarPorPlaca(placa) Cliente
+        +ehPlacaCadastrada(placa) boolean
+        +clientesImpedidos() Cliente[]
+        +carregarDeTextoCSV(conteudo) number
+        +paraTextoCSV() String
+    }
+
+    class Cliente {
+        <<abstract>>
+        -String documento
+        -String nome
+        -Set~String~ placas
+        +LIMITE_DE_PLACAS$ number
+        +adicionarPlaca(placa) String
+        +removerPlaca(placa) String
+        +possuiPlaca(placa) boolean
+        +estaImpedido() boolean
+        +motivoImpedimento() String
+        +autorizarEntrada(placa, placasNoPatio) Object
+        +registrarPagamento(valorDevido) number
+        +situacaoFinanceira() Object
+        +calcularCusto(ticket, saida, tarifas)* number
+    }
+
+    class Estudante {
+        +LIMITE_DE_PLACAS = 1$
+        -number saldo
+        +carregarSaldo(valor) number
+        +estaImpedido() boolean
+        +registrarPagamento(valorDevido) number
+        +calcularCusto(ticket, saida, tarifas) number
+    }
+
+    class Professor {
+        +LIMITE_DE_PLACAS = 2$
+        +autorizarEntrada(placa, placasNoPatio) Object
+        +calcularCusto() number
+    }
+
+    class Empresa {
+        +LIMITE_DE_PLACAS = Infinity$
+        -number saldoDevedor
+        -number boletoEmAberto
+        -boolean inadimplente
+        +emitirBoleto() number
+        +registrarBoletoNaoQuitado() boolean
+        +quitarBoleto() boolean
+        +registrarPagamento(valorDevido) number
+        +calcularCusto(ticket, saida, tarifas) number
+    }
+
+    %% ------------------------------------------------------------------
+    %% Classes adicionais (permitidas pelo documento)
+    %% ------------------------------------------------------------------
+
+    class ClienteAvulso {
+        +calcularCusto(ticket, saida, tarifas) number
+    }
+
+    class Placa {
+        -String codigo
+        +ehValida(codigo)$ boolean
+        +normalizar(codigo)$ String
+        +padrao() String
+        +equals(outra) boolean
+    }
+
+    class Tarifas {
+        -number valorHora
+        -number limiteHoras
+        -number diaria
+        -number ingressoEstudante
+        -number diariaEmpresa
+        -number multaEmpresaPorDia
+        +valorAvulsoDoDia(horas) number
+    }
+
+    class PoliticaDescontos {
+        -Desconto[] descontos
+        +registrar(desconto) PoliticaDescontos
+        +aplicar(custo, contexto) Object
+    }
+
+    class Desconto {
+        <<abstract>>
+        -String identificador
+        +ehAplicavel(contexto)* boolean
+        +calcular(custo, contexto)* number
+    }
+
+    class DescontoClienteFrequente {
+        +IDENTIFICADOR = "Cliente Frequente"$
+        +PERCENTUAL = 20$
+        +USOS_MINIMOS = 3$
+        +JANELA_EM_DIAS = 5$
+        +ehAplicavel(contexto) boolean
+        +calcular(custo) number
+    }
+
+    %% ------------------------------------------------------------- heranças
+    Cliente <|-- Estudante
+    Cliente <|-- Professor
+    Cliente <|-- Empresa
+    Cliente <|-- ClienteAvulso
+    Desconto <|-- DescontoClienteFrequente
+
+    %% -------------------------------------------------------- associações
+    App --> RelatoriosGerenciais
+    App --> RegistroDeEntradas_E_Saidas
+    App --> CadastroClientes
+
+    RelatoriosGerenciais ..> RegistroDeEntradas_E_Saidas : consulta
+    RelatoriosGerenciais ..> CadastroClientes : consulta
+    RelatoriosGerenciais ..> TicketEstacionamento : usa dados
+
+    RegistroDeEntradas_E_Saidas "1" *-- "*" TicketEstacionamento : registra
+    RegistroDeEntradas_E_Saidas ..> CadastroClientes : consulta
+    RegistroDeEntradas_E_Saidas --> Tarifas
+    RegistroDeEntradas_E_Saidas --> PoliticaDescontos
+    RegistroDeEntradas_E_Saidas ..> ClienteAvulso : cria na saída
+
+    CadastroClientes "1" o-- "*" Cliente : gerencia
+    TicketEstacionamento "1" *-- "1" Placa : identificado por
+    PoliticaDescontos "1" o-- "*" Desconto : aplica
