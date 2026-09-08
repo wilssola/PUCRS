@@ -6,6 +6,10 @@
  */
 
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { Writable } from 'node:stream';
 
 import { CadastroClientes } from '../src/services/CadastroClientes.js';
 import { RegistroDeEntradas_E_Saidas } from '../src/services/RegistroDeEntradas_E_Saidas.js';
@@ -16,6 +20,8 @@ import { Cliente } from '../src/domain/clients/Cliente.js';
 import { Estudante } from '../src/domain/clients/Estudante.js';
 import { Professor } from '../src/domain/clients/Professor.js';
 import { Empresa } from '../src/domain/clients/Empresa.js';
+import { App } from '../src/app/App.js';
+import { Terminal } from '../src/app/Terminal.js';
 import { Desconto } from '../src/domain/discounts/Desconto.js';
 import { DescontoClienteFrequente } from '../src/domain/discounts/DescontoClienteFrequente.js';
 import {
@@ -438,6 +444,107 @@ teste('registros são carregados do CSV, inclusive os incompletos', () => {
   assert.equal(registro.carregarDeTextoCSV(csv), 2);
   assert.equal(registro.ticketsAbertos.length, 1);
   assert.equal(registro.tickets[0].tipoCliente, 'Estudante');
+});
+
+// ------------------------------------------------- Fase 2: interface (Terminal)
+teste('Terminal converte data no formato dd/mm/aaaa', () => {
+  const data = Terminal.converterDataHora('09/09/2026');
+  assert.equal(data.getFullYear(), 2026);
+  assert.equal(data.getMonth(), 8);
+  assert.equal(data.getDate(), 9);
+  assert.equal(data.getHours(), 0);
+});
+
+teste('Terminal converte data com hora dd/mm/aaaa hh:mm', () => {
+  const data = Terminal.converterDataHora('09/09/2026 14:35');
+  assert.equal(data.getHours(), 14);
+  assert.equal(data.getMinutes(), 35);
+});
+
+teste('Terminal usa 23:59 quando a data marca o fim do período', () => {
+  const data = Terminal.converterDataHora('09/09/2026', true);
+  assert.equal(data.getHours(), 23);
+  assert.equal(data.getMinutes(), 59);
+});
+
+teste('Terminal rejeita datas inexistentes e formatos inválidos', () => {
+  assert.equal(Terminal.converterDataHora('31/02/2026'), null);
+  assert.equal(Terminal.converterDataHora('2026-09-09'), null);
+  assert.equal(Terminal.converterDataHora('09/09/2026 25:00'), null);
+  assert.equal(Terminal.converterDataHora(''), null);
+});
+
+// ------------------------------------------- Fase 2: persistência em arquivos
+
+/** Terminal silencioso, para que os testes não poluam a saída. */
+function terminalSilencioso() {
+  const descartar = () => new Writable({ write(_pedaco, _codificacao, pronto) { pronto(); } });
+  return new Terminal(descartar(), descartar());
+}
+
+/** Pasta temporária isolada para cada teste de persistência. */
+function pastaTemporaria() {
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'estacme-teste-'));
+}
+
+const PASTA_SEMENTE = path.join(process.cwd(), 'seed-data');
+
+teste('App copia o cenário inicial quando a pasta de dados está vazia', () => {
+  const pasta = pastaTemporaria();
+  const app = new App(pasta, { terminal: terminalSilencioso(), pastaSemente: PASTA_SEMENTE });
+  app.iniciar();
+
+  assert.ok(fs.existsSync(path.join(pasta, 'clientes.csv')));
+  assert.ok(fs.existsSync(path.join(pasta, 'registros.csv')));
+  assert.equal(app.cadastro.totalClientes, 10);
+  assert.ok(app.registro.tickets.length > 0);
+
+  fs.rmSync(pasta, { recursive: true, force: true });
+});
+
+teste('App grava e recarrega os dados nos arquivos CSV', () => {
+  const pasta = pastaTemporaria();
+
+  const primeira = new App(pasta, { terminal: terminalSilencioso(), pastaSemente: PASTA_SEMENTE });
+  primeira.iniciar();
+
+  const aluno = new Estudante('99988877766', 'Ana Testadora', 50);
+  aluno.adicionarPlaca('TST1T11');
+  primeira.cadastro.cadastrarCliente(aluno);
+  primeira.registro.autorizarEntrada('TST1T11', new Date(2026, 8, 9, 8, 0));
+  primeira.registro.processarSaida('TST1T11', new Date(2026, 8, 9, 12, 30));
+  assert.equal(primeira.salvar(), true);
+
+  // um novo App lendo a mesma pasta deve encontrar tudo o que foi gravado
+  const segunda = new App(pasta, { terminal: terminalSilencioso(), pastaSemente: PASTA_SEMENTE });
+  segunda.iniciar();
+
+  const recuperado = segunda.cadastro.buscarPorDocumento('99988877766');
+  assert.equal(recuperado.nome, 'Ana Testadora');
+  assert.equal(recuperado.saldo, 38); // 50 - 12 do ingresso do estudante
+  assert.ok(recuperado.possuiPlaca('TST1T11'));
+
+  const registros = segunda.registro.consultarPorPlaca('TST1T11');
+  assert.equal(registros.length, 1);
+  assert.equal(registros[0].valorPago, 12);
+
+  fs.rmSync(pasta, { recursive: true, force: true });
+});
+
+teste('App mantém os veículos em aberto ao recarregar os arquivos', () => {
+  const pasta = pastaTemporaria();
+
+  const primeira = new App(pasta, { terminal: terminalSilencioso(), pastaSemente: PASTA_SEMENTE });
+  primeira.iniciar();
+  const abertosAntes = primeira.registro.ticketsAbertos.length;
+  primeira.registro.autorizarEntrada('AVU9A99', new Date(2026, 8, 9, 8, 0));
+  primeira.salvar();
+
+  const segunda = new App(pasta, { terminal: terminalSilencioso(), pastaSemente: PASTA_SEMENTE });
+  segunda.iniciar();
+  assert.equal(segunda.registro.ticketsAbertos.length, abertosAntes + 1);
+
+  fs.rmSync(pasta, { recursive: true, force: true });
 });
 
 console.log(`\n${executados - falhas}/${executados} testes aprovados.\n`);
