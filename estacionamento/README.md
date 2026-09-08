@@ -17,7 +17,7 @@ Requisito: Node.js 18 ou superior (nenhuma dependência externa).
 
 ```bash
 node src/main.js       # demonstração completa das regras   (npm start)
-node tests/testes.js   # 32 testes das regras de negócio    (npm test)
+node tests/testes.js   # 37 testes das regras de negócio    (npm test)
 ```
 
 `src/main.js` restaura o cenário de `seed-data/` em `data/`, executa a demonstração e salva os
@@ -93,11 +93,23 @@ Todos os valores estão em `src/domain/Tarifas.js` e podem ser reajustados sem a
 **Veículos pré-cadastrados nunca usam a modalidade avulsa:** ao ler a placa, o sistema procura o
 proprietário no `CadastroClientes` e, se encontrado, aplica as regras da categoria dele.
 
-**Descontos.** O único desconto ativo é o **“Cliente Frequente”**: clientes avulsos que utilizaram o
-estacionamento três vezes nos últimos cinco dias recebem 20% de abatimento, concedido mesmo que já
-tenham sido beneficiados antes. O identificador gravado no registro é exatamente a string
-`Cliente Frequente` (ou `nenhum`, quando não há desconto). Novos descontos são criados herdando de
-`Desconto` e registrados com `politicaDescontos.registrar(...)`, sem alterar nenhuma outra classe.
+**Descontos.** O único desconto ativo é o **ClienteFrequente**: clientes avulsos que utilizarem o
+estacionamento **três vezes nos últimos cinco dias** recebem 20% de abatimento, concedido mesmo que
+já tenham sido beneficiados antes. O identificador gravado no registro é exatamente a string
+`ClienteFrequente` (ou `nenhum`, quando não há desconto), como exige o documento do projeto.
+
+Interpretação adotada na contagem (`DescontoClienteFrequente`):
+
+- a utilização que está sendo cobrada **conta** para o total, ou seja, o desconto já vale na
+  **terceira** utilização dentro da janela — e não a partir da quarta;
+- cada utilização é datada pela sua **entrada**, de modo que uma permanência longa não desloca a
+  janela;
+- a janela de cinco dias abrange o dia da utilização atual e os quatro dias anteriores;
+- o benefício se repete nas utilizações seguintes que satisfaçam a regra;
+- vale somente para clientes avulsos, identificados exclusivamente pela placa.
+
+Novos descontos são criados herdando de `Desconto` e registrados com
+`politicaDescontos.registrar(...)`, sem alterar nenhuma outra classe.
 
 ## Conceitos de POO aplicados
 
@@ -141,7 +153,8 @@ tenham sido beneficiados antes. O identificador gravado no registro é exatament
 
 ## Testes
 
-`node tests/testes.js` executa 32 verificações automatizadas das regras: tarifas do avulso, virada de
-meia-noite, desconto de cliente frequente, lista de bloqueio, ingresso e saldo do estudante,
+`node tests/testes.js` executa 37 verificações automatizadas das regras: tarifas do avulso, virada de
+meia-noite, desconto ClienteFrequente (inclusive a terceira utilização, a repetição do benefício e a
+janela de cinco dias), lista de bloqueio, ingresso e saldo do estudante,
 gratuidade e limite de um veículo do professor, diária/multa/boleto da empresa, limites de placas,
 exceções e leitura/gravação dos CSV. Todos passam na versão entregue.
