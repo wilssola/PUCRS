@@ -4,149 +4,339 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Wilson Oliveira Lima">
-  <meta name="description" content="Petshop com acessórios, rações, produtos de higiene e serviços de banho e tosa com tele-busca em Porto Alegre.">
+  <meta name="description" content="Petshop com acessórios, rações, produtos de higiene, banho e tosa com tele-busca, cadastro de clientes e agendamento on-line em Porto Alegre.">
   <title>Início | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
-<!-- ================= CABEÇALHO ================= -->
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
-  <h1>Pata Amiga Petshop</h1>
-  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
-  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
-    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
-    E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
-  </address>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Início</a></li>
 
-  <!-- Menu principal de navegação, repetido em todas as páginas -->
-  <nav aria-label="Menu principal">
-    <h2>Navegação</h2>
-    <ul>
-      <li><a href="index.html" aria-current="page"><strong>Início</strong></a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html">Rações</a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html">Serviços</a></li>
-      <li><a href="contato.html">Contato</a></li>
-      <li><a href="ajuda.html">Ajuda</a></li>
-    </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 
-<hr>
-<main>
-  <h2>Bem-vindo ao Pata Amiga Petshop</h2>
-  <p>
-    O <strong>Pata Amiga</strong> é um petshop de bairro que reúne, em um só lugar, os produtos do dia a dia
-    do seu animal de estimação e os serviços de banho e tosa realizados por profissionais especializados.
-    Neste site você encontra o catálogo completo das nossas três categorias de produtos
-    &ndash; acessórios, rações e itens de higiene e limpeza &ndash; e a tabela de preços dos serviços,
-    com ou sem tele-busca.
-  </p>
+<main id="conteudo-principal">
 
-  <h3>O que você encontra neste site</h3>
-  <ul>
-    <li><a href="acessorios.html">Acessórios</a>: roupas, brinquedos e conforto para cães e gatos.</li>
-    <li><a href="racoes.html">Rações</a>: alimentos secos não perecíveis para cães e gatos.</li>
-    <li><a href="higiene.html">Higiene e limpeza</a>: shampoo, areia sanitária e cuidados diários.</li>
-    <li><a href="servicos.html">Serviços</a>: banho e tosa, com ou sem tele-busca (leva e traz).</li>
-    <li><a href="contato.html">Contato</a>: telefones, endereço e formulário de atendimento.</li>
-    <li><a href="ajuda.html">Ajuda</a>: como navegar pelo site e créditos das imagens.</li>
-  </ul>
+  <!-- ===================== CARROSSEL (Bootstrap) ===================== -->
+  <section aria-labelledby="titulo-carrossel">
+    <h1 id="titulo-carrossel" class="visually-hidden">Destaques do Pata Amiga Petshop</h1>
 
-  <hr>
+    <div id="carrosselPetshop" class="carousel slide carrossel-principal" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carrosselPetshop" data-bs-slide-to="0"
+                class="active" aria-current="true" aria-label="Slide 1: banho e tosa"></button>
+        <button type="button" data-bs-target="#carrosselPetshop" data-bs-slide-to="1"
+                aria-label="Slide 2: tele-busca"></button>
+        <button type="button" data-bs-target="#carrosselPetshop" data-bs-slide-to="2"
+                aria-label="Slide 3: acessórios"></button>
+        <button type="button" data-bs-target="#carrosselPetshop" data-bs-slide-to="3"
+                aria-label="Slide 4: rações"></button>
+      </div>
 
-  <h2>Destaques da semana</h2>
-  <p>Um produto de cada categoria e o nosso serviço mais procurado:</p>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="img/banho.jpg" class="d-block w-100"
+               alt="Cão cocker spaniel de pelo preto e branco recém-banhado, ainda molhado, sobre o piso claro do petshop">
+          <div class="carousel-caption d-block text-start">
+            <h2 class="h3">Banho completo a partir de R$ 45,00</h2>
+            <p>Hidratação, secagem, limpeza de ouvidos e corte de unhas.</p>
+            <a class="btn btn-warning fw-semibold" href="agendamento.html">Agendar agora</a>
+          </div>
+        </div>
 
-  <section>
-    <h3>Acessórios</h3>
-    <figure>
-      <img src="img/roupa-pet.jpg" alt="Cão dachshund vestindo uma malha de tricô azul e branca" width="280">
-      <figcaption>Malha de tricô para cães &ndash; R$ 59,90.</figcaption>
-    </figure>
-    <p>Peça em tricô com gola alta, indicada para os dias frios. <a href="acessorios.html#malha-trico">Ver detalhes</a>.</p>
+        <div class="carousel-item">
+          <img src="img/tosa.jpg" class="d-block w-100"
+               alt="Cão de pelo claro em pé sobre a mesa de tosa, com o profissional ao fundo e coleiras penduradas na parede">
+          <div class="carousel-caption d-block text-start">
+            <h2 class="h3">Tosa higiênica e tosa completa</h2>
+            <p>Feitas na tesoura ou na máquina, com produtos hipoalergênicos.</p>
+            <a class="btn btn-warning fw-semibold" href="servicos.html">Ver tabela de preços</a>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="img/roupa-pet.jpg" class="d-block w-100"
+               alt="Cão dachshund de pelo curto castanho vestindo uma malha de tricô azul e branca">
+          <div class="carousel-caption d-block text-start">
+            <h2 class="h3">Tele-busca por R$ 25,00</h2>
+            <p>Buscamos e devolvemos o seu pet em casa, em até 8 km da loja.</p>
+            <a class="btn btn-warning fw-semibold" href="agendamento.html">Solicitar tele-busca</a>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="img/racao-cao.jpg" class="d-block w-100"
+               alt="Grãos marrons de ração seca para cães espalhados sobre um fundo branco">
+          <div class="carousel-caption d-block text-start">
+            <h2 class="h3">Rações premium para cães e gatos</h2>
+            <p>Alimentos secos não perecíveis, com validade de 18 meses.</p>
+            <a class="btn btn-warning fw-semibold" href="racoes.html">Ver rações</a>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carrosselPetshop" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Destaque anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carrosselPetshop" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo destaque</span>
+      </button>
+    </div>
   </section>
 
-  <section>
-    <h3>Rações</h3>
-    <figure>
-      <img src="img/racao-cao.jpg" alt="Grãos de ração seca para cães sobre fundo branco" width="280">
-      <figcaption>Ração seca premium para cães adultos, 10,1 kg &ndash; R$ 179,90.</figcaption>
-    </figure>
-    <p>Alimento completo, com carne e arroz, para cães adultos de todos os portes. <a href="racoes.html#racao-caes-adultos">Ver detalhes</a>.</p>
-  </section>
+  <div class="container py-5">
 
-  <section>
-    <h3>Higiene e limpeza</h3>
-    <figure>
-      <img src="img/shampoo-pet.jpg" alt="Frasco de shampoo para animais com aloe vera e neem" width="200">
-      <figcaption>Shampoo hidratante com aloe vera e neem, 200 ml &ndash; R$ 34,90.</figcaption>
-    </figure>
-    <p>Fórmula suave, de uso semanal, que ajuda a controlar a caspa e o odor. <a href="higiene.html#shampoo-hidratante">Ver detalhes</a>.</p>
-  </section>
+    <!-- ===================== APRESENTAÇÃO ===================== -->
+    <section class="row align-items-center g-4 mb-5" aria-labelledby="titulo-boas-vindas">
+      <div class="col-lg-7">
+        <h2 id="titulo-boas-vindas">Bem-vindo ao Pata Amiga Petshop</h2>
+        <p class="lead">
+          Reunimos em um só lugar os produtos do dia a dia do seu animal e os serviços de banho e
+          tosa realizados por profissionais especializados.
+        </p>
+        <p>
+          Neste site você encontra as três categorias de produtos &ndash; acessórios, rações e itens
+          de higiene e limpeza &ndash;, a tabela completa de serviços com e sem tele-busca, o
+          cadastro de cliente e pet e o agendamento on-line com escolha de data e horário.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-primary btn-lg" href="agendamento.html">Agendar banho ou tosa</a>
+          <a class="btn btn-outline-dark btn-lg" href="cadastro.html">Cadastrar cliente e pet</a>
+        </div>
+      </div>
 
-  <section>
-    <h3>Serviço em destaque</h3>
-    <figure>
-      <img src="img/banho.jpg" alt="Cão cocker spaniel recém-banhado, com o pelo molhado" width="240">
-      <figcaption>Banho completo &ndash; a partir de R$ 45,00.</figcaption>
-    </figure>
-    <p>
-      Inclui hidratação, secagem, limpeza de ouvidos e corte de unhas.
-      Com <strong>tele-busca</strong>, buscamos e devolvemos o animal em casa por R$ 25,00 adicionais.
-      <a href="servicos.html">Ver a tabela completa de serviços</a>.
-    </p>
-  </section>
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="h5 card-title">Atendimento</h3>
+            <ul class="list-unstyled mb-0">
+              <li><strong>Segunda a sexta:</strong> 8h às 19h</li>
+              <li><strong>Sábados:</strong> 8h às 17h</li>
+              <li><strong>Domingos:</strong> fechado</li>
+              <li><strong>Tele-busca:</strong> 8h30, 10h30, 13h30 e 15h30</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <hr>
+    <!-- ===================== DESTAQUES ===================== -->
+    <section aria-labelledby="titulo-destaques" class="mb-5">
+      <h2 id="titulo-destaques" class="mb-3">Destaques da semana</h2>
+      <p>Um produto de cada categoria e o serviço mais procurado da casa:</p>
 
-  <h2>Como comprar</h2>
-  <ol>
-    <li>Escolha os produtos ou serviços navegando pelo menu do topo da página.</li>
-    <li>Anote o nome do item e o valor apresentado na descrição.</li>
-    <li>Entre em contato pelo telefone, pelo WhatsApp ou pelo <a href="contato.html">formulário de contato</a>.</li>
-    <li>Retire na loja ou solicite a entrega em domicílio na cidade de Porto Alegre.</li>
-  </ol>
-  <p>
-    <em>Observação:</em> nesta primeira fase do projeto o site é apenas informativo.
-    O carrinho de compras e o agendamento on-line serão implementados na Fase 2, com JavaScript.
-  </p>
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-3">
+          <article class="card card-produto h-100">
+            <img src="img/roupa-pet.jpg" class="card-img-top foto-produto"
+                 alt="Cão dachshund vestindo uma malha de tricô azul e branca com gola alta">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5">Malha de tricô para cães</h3>
+              <p class="card-text small">Peça com gola alta, indicada para cães de pelo curto nos dias frios.</p>
+              <p class="preco mt-auto mb-2">R$ 59,90</p>
+              <a class="btn btn-outline-primary" href="acessorios.html#malha-trico">Ver detalhes
+                <span class="visually-hidden">da malha de tricô</span></a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <article class="card card-produto h-100">
+            <img src="img/racao-cao.jpg" class="card-img-top foto-produto"
+                 alt="Grãos marrons de ração seca para cães sobre fundo branco">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5">Ração premium para cães</h3>
+              <p class="card-text small">Alimento completo de carne e arroz, pacote de 10,1 kg.</p>
+              <p class="preco mt-auto mb-2">R$ 179,90</p>
+              <a class="btn btn-outline-primary" href="racoes.html#racao-caes-adultos">Ver detalhes
+                <span class="visually-hidden">da ração premium para cães</span></a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <article class="card card-produto h-100">
+            <img src="img/shampoo-pet.jpg" class="card-img-top foto-produto"
+                 alt="Frasco marrom de shampoo para animais com aloe vera e neem, de 200 mililitros">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5">Shampoo hidratante</h3>
+              <p class="card-text small">Aloe vera e neem, uso semanal, controla caspa e odor.</p>
+              <p class="preco mt-auto mb-2">R$ 34,90</p>
+              <a class="btn btn-outline-primary" href="higiene.html#shampoo-hidratante">Ver detalhes
+                <span class="visually-hidden">do shampoo hidratante</span></a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <article class="card card-produto h-100 border-primary">
+            <img src="img/banho.jpg" class="card-img-top foto-produto"
+                 alt="Cão cocker spaniel recém-banhado, com o pelo molhado e brilhante">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5">Banho completo</h3>
+              <p class="card-text small">Com secagem, escovação, limpeza de ouvidos e corte de unhas.</p>
+              <p class="preco mt-auto mb-2">a partir de R$ 45,00</p>
+              <a class="btn btn-primary" href="agendamento.html">Agendar
+                <span class="visually-hidden">um banho completo</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COMO AGENDAR ===================== -->
+    <section aria-labelledby="titulo-passos" class="mb-4">
+      <h2 id="titulo-passos" class="mb-3">Como agendar em 3 passos</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="p-3 h-100 bg-white border rounded-3">
+            <h3 class="h5">1. Cadastre-se</h3>
+            <p class="mb-0">Preencha o <a href="cadastro.html">formulário de cliente e pet</a> com
+               os dados de contato e as informações do animal.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 h-100 bg-white border rounded-3">
+            <h3 class="h5">2. Escolha o serviço</h3>
+            <p class="mb-0">Banho, tosa higiênica ou tosa completa, com valores por porte na página
+               de <a href="servicos.html">serviços</a>.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 h-100 bg-white border rounded-3">
+            <h3 class="h5">3. Marque data e hora</h3>
+            <p class="mb-0">No <a href="agendamento.html">agendamento</a>, escolha o dia no
+               calendário e decida entre tele-busca ou entrega do pet na loja.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 
-<hr>
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
 
-<!-- ================= RODAPÉ ================= -->
-<footer>
-  <h2>Pata Amiga Petshop</h2>
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
-    E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a><br>
-    CNPJ (fictício): 12.345.678/0001-90
-  </address>
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
 
-  <nav aria-label="Navegação do rodapé">
-    <p><a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="racoes.html">Rações</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="servicos.html">Serviços</a> &nbsp;|&nbsp; <a href="contato.html">Contato</a> &nbsp;|&nbsp; <a href="ajuda.html">Ajuda</a></p>
-  </nav>
+    <hr>
 
-  <p><small>
-    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
-    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
-    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
-    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
-    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
-    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
-    <a href="ajuda.html#privacidade">Política de privacidade</a>.
-  </small></p>
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 </html>
