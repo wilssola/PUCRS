@@ -145,7 +145,7 @@ export class TicketEstacionamento {
       const valorDesconto = Number(desconto || 0);
       ticket.fechar(deISOLocal(saida), {
         custo: valorCusto,
-        identificadorDesconto: valorDesconto > 0 ? 'Cliente Frequente' : 'nenhum',
+        identificadorDesconto: valorDesconto > 0 ? 'ClienteFrequente' : 'nenhum',
         valorDesconto,
         valorDevido: Number((valorCusto - valorDesconto).toFixed(2)),
         valorPago: Number(pago || 0),
