@@ -6,124 +6,226 @@
   <meta name="author" content="Wilson Oliveira Lima">
   <meta name="description" content="Rações secas não perecíveis para cães e gatos, com foto, descrição e valor.">
   <title>Rações | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
-<!-- ================= CABEÇALHO ================= -->
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
-  <h1>Pata Amiga Petshop</h1>
-  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
-  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
-    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a>
-  </address>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
 
-  <!-- Menu principal de navegação, repetido em todas as páginas -->
-  <nav aria-label="Menu principal">
-    <h2>Navegação</h2>
-    <ul>
-      <li><a href="index.html">Início</a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html" aria-current="page"><strong>Rações</strong></a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html">Serviços</a></li>
-      <li><a href="contato.html">Contato</a></li>
-      <li><a href="ajuda.html">Ajuda</a></li>
-    </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item active" aria-current="page" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 
-<hr>
-<main>
-  <h2>Rações não perecíveis</h2>
-  <p>
-    Alimentos secos (rações extrusadas) com validade longa, armazenados em local seco e arejado.
-    Trabalhamos com linhas premium para cães e gatos em todas as fases da vida.
-  </p>
+<main id="conteudo-principal" class="container py-5">
+  <h1>Rações não perecíveis</h1>
+  <p class="lead">Alimentos secos com validade longa, armazenados em local seco e arejado.</p>
 
-  <article id="racao-caes-adultos">
-    <h3>Ração seca premium para cães adultos &ndash; 10,1 kg</h3>
-    <figure>
-      <img src="img/racao-cao.jpg" alt="Grãos de ração seca para cães sobre fundo branco" width="320">
-      <figcaption>Grãos de ração seca para cães sobre fundo branco.</figcaption>
-    </figure>
-    <p>Alimento completo e balanceado, à base de carne e arroz, para cães adultos de todos os portes. Os grãos têm formato que ajuda na remoção da placa bacteriana durante a mastigação.</p>
-    <h4>Detalhes do produto</h4>
+  <!-- Busca e ordenação: implementadas em js/produtos.js -->
+  <section class="row g-3 align-items-end my-4" aria-label="Filtros de produtos">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="busca-produto">Buscar nesta categoria</label>
+      <input class="form-control" type="search" id="busca-produto"
+             placeholder="Digite parte do nome do produto"
+             aria-describedby="ajuda-busca">
+      <div class="form-text" id="ajuda-busca">A lista é filtrada enquanto você digita.</div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label class="form-label" for="ordenar-produtos">Ordenar por</label>
+      <select class="form-select" id="ordenar-produtos">
+        <option value="padrao">Ordem da vitrine</option>
+        <option value="menor-preco">Menor preço</option>
+        <option value="maior-preco">Maior preço</option>
+        <option value="nome">Nome (A a Z)</option>
+      </select>
+    </div>
+
+    <div class="col-12">
+      <p class="form-text mb-0" id="contador-produtos" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section aria-label="Produtos da categoria">
+    <div class="row g-4" id="grade-produtos">
+      <div class="col-12 col-md-6 col-xl-4" data-nome="Ração premium para cães adultos &ndash; 10,1 kg ração cão adulto carne" data-preco="179.9">
+        <article class="card card-produto h-100" id="racao-caes-adultos">
+          <img src="img/racao-cao.jpg" class="card-img-top foto-produto" alt="Grãos marrons de ração seca para cães espalhados sobre um fundo branco">
+          <div class="card-body d-flex flex-column">
+            <h3 class="h5 card-title">Ração premium para cães adultos &ndash; 10,1 kg</h3>
+            <p class="card-text">Alimento completo e balanceado, à base de carne e arroz, para cães adultos de todos os portes. O formato do grão ajuda a remover a placa bacteriana durante a mastigação.</p>
+            <h4 class="h6">Detalhes do produto</h4>
+            <ul class="small">
+            <li>Peso do pacote: 10,1 kg</li>
+            <li>Indicação: cães adultos, a partir de 12 meses</li>
+            <li>Sabor: carne e arroz</li>
+            <li>Validade: 18 meses após a fabricação</li>
+            <li>Rendimento médio: 40 dias para um cão de 10 kg</li>
+            </ul>
+            <p class="preco mt-auto mb-1">R$ 179.90</p>
+            <p class="small text-body-secondary mb-3">ou 5x de R$ 35,98 sem juros</p>
+            <a class="btn btn-primary" href="contato.html">Reservar
+              <span class="visually-hidden">o produto Ração premium para cães adultos &ndash; 10,1 kg</span></a>
+          </div>
+        </article>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4" data-nome="Ração para gatos adultos &ndash; 3 kg ração gato adulto frango" data-preco="89.9">
+        <article class="card card-produto h-100" id="racao-gatos-adultos">
+          <img src="img/racao-gato.jpg" class="card-img-top foto-produto" alt="Gato preto de pelo longo ao lado de um comedouro branco com ração seca e patê">
+          <div class="card-body d-flex flex-column">
+            <h3 class="h5 card-title">Ração para gatos adultos &ndash; 3 kg</h3>
+            <p class="card-text">Ração para gatos adultos, castrados ou não, com taurina para a saúde dos olhos e do coração e fibras que auxiliam no controle das bolas de pelo.</p>
+            <h4 class="h6">Detalhes do produto</h4>
+            <ul class="small">
+            <li>Peso do pacote: 3 kg</li>
+            <li>Indicação: gatos adultos, a partir de 12 meses</li>
+            <li>Sabor: frango</li>
+            <li>Validade: 18 meses após a fabricação</li>
+            <li>Rendimento médio: 60 dias para um gato de 4 kg</li>
+            </ul>
+            <p class="preco mt-auto mb-1">R$ 89.90</p>
+            <p class="small text-body-secondary mb-3">ou 3x de R$ 29,97 sem juros</p>
+            <a class="btn btn-primary" href="contato.html">Reservar
+              <span class="visually-hidden">o produto Ração para gatos adultos &ndash; 3 kg</span></a>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="mt-5" aria-labelledby="armazenamento">
+    <h2 id="armazenamento" class="h4">Orientação de armazenamento</h2>
     <ul>
-      <li>Peso do pacote: 10,1 kg</li>
-      <li>Indicação: cães adultos, a partir de 12 meses</li>
-      <li>Sabor: carne e arroz</li>
-      <li>Validade: 18 meses a partir da data de fabricação</li>
-      <li>Rendimento médio: 40 dias para um cão de 10 kg</li>
+      <li>Mantenha o pacote fechado, em local seco e ao abrigo da luz do sol.</li>
+      <li>Depois de aberto, consuma preferencialmente em até 30 dias.</li>
+      <li>Ofereça água fresca à vontade junto com a ração.</li>
     </ul>
-    <p><strong>Valor: R$ 179,90</strong> &ndash; ou 5x de R$ 35,98 sem juros.</p>
-    <p><a href="contato.html">Reservar este produto</a></p>
-  </article>
+  </section>
 
-  <article id="racao-gatos-adultos">
-    <h3>Ração seca para gatos adultos &ndash; 3 kg</h3>
-    <figure>
-      <img src="img/racao-gato.jpg" alt="Gato preto ao lado de um comedouro com ração seca" width="320">
-      <figcaption>Gato preto ao lado de um comedouro com ração seca.</figcaption>
-    </figure>
-    <p>Ração para gatos adultos, castrados ou não, com taurina para a saúde dos olhos e do coração e fibras que auxiliam no controle das bolas de pelo.</p>
-    <h4>Detalhes do produto</h4>
-    <ul>
-      <li>Peso do pacote: 3 kg</li>
-      <li>Indicação: gatos adultos, a partir de 12 meses</li>
-      <li>Sabor: frango</li>
-      <li>Validade: 18 meses a partir da data de fabricação</li>
-      <li>Rendimento médio: 60 dias para um gato de 4 kg</li>
-    </ul>
-    <p><strong>Valor: R$ 89,90</strong> &ndash; ou 3x de R$ 29,97 sem juros.</p>
-    <p><a href="contato.html">Reservar este produto</a></p>
-  </article>
-
-  <hr>
-
-  <h3>Orientação de armazenamento</h3>
-  <ul>
-    <li>Mantenha o pacote fechado, em local seco e ao abrigo da luz do sol.</li>
-    <li>Depois de aberto, consuma preferencialmente em até 30 dias.</li>
-    <li>Ofereça água fresca à vontade junto com a ração.</li>
-  </ul>
-
-  <p><a href="higiene.html">Próxima categoria: Higiene e limpeza &rarr;</a></p>
 </main>
 
-<hr>
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
 
-<!-- ================= RODAPÉ ================= -->
-<footer>
-  <h2>Pata Amiga Petshop</h2>
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a><br>
-    CNPJ (fictício): 12.345.678/0001-90
-  </address>
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
 
-  <nav aria-label="Navegação do rodapé">
-    <p><a href="index.html">Início</a> &nbsp;|&nbsp; <a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="servicos.html">Serviços</a> &nbsp;|&nbsp; <a href="contato.html">Contato</a> &nbsp;|&nbsp; <a href="ajuda.html">Ajuda</a></p>
-  </nav>
+    <hr>
 
-  <p><small>
-    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
-    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
-    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
-    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
-    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
-    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
-    <a href="ajuda.html#privacidade">Política de privacidade</a>.
-  </small></p>
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/precos.js"></script>
+<script src="js/produtos.js"></script>
 
 </body>
 </html>
