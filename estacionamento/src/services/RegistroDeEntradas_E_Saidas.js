@@ -116,7 +116,9 @@ export class RegistroDeEntradas_E_Saidas {
     const custo = cliente.calcularCusto(ticket, saida, this.#tarifas);
     const desconto = this.#politicaDescontos.aplicar(custo, {
       tipoCliente: ticket.tipoCliente,
-      referencia: saida,
+      // a utilização é datada pela entrada, e não pela saída, para que uma
+      // permanência longa não desloque a janela de cinco dias do desconto
+      referencia: ticket.entrada,
       historico: this.#historicoDaPlaca(placa, ticket),
     });
 
@@ -143,15 +145,14 @@ export class RegistroDeEntradas_E_Saidas {
   }
 
   /**
-   * Utilizações anteriores encerradas da mesma placa (base do desconto de
-   * cliente frequente).
+   * Utilizações anteriores da mesma placa, base do desconto de cliente
+   * frequente. O ticket que está sendo fechado é excluído aqui porque o
+   * próprio desconto o soma à contagem.
    * @param {string} placa
    * @param {TicketEstacionamento} atual
    */
   #historicoDaPlaca(placa, atual) {
-    return this.#tickets.filter(
-      (t) => t.placa.codigo === placa && t.id !== atual.id && !t.estaAberto,
-    );
+    return this.#tickets.filter((t) => t.placa.codigo === placa && t.id !== atual.id);
   }
 
   // ----------------------------------------------------------------- consultas
