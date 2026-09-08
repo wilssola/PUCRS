@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Wilson Oliveira Lima">
+  <meta name="description" content="Agende banho ou tosa escolhendo data, horário e entre tele-busca ou entrega do pet na loja.">
+  <title>Agendamento | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="conteudo-principal" class="container py-5">
+  <h1>Agendamento de banho e tosa</h1>
+  <p class="lead">
+    Escolha o serviço, a data e o horário. Você decide entre a <strong>tele-busca</strong>, em que
+    buscamos o pet em casa, ou a <strong>entrega do pet na loja</strong>.
+  </p>
+
+  <div id="mensagem-agendamento" role="status" aria-live="polite" hidden></div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <form id="form-agendamento" class="row g-4 needs-validation" novalidate>
+
+        <!-- ===================== IDENTIFICAÇÃO ===================== -->
+        <fieldset class="col-12">
+          <legend class="h4">1. Quem será atendido</legend>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label form-obrigatorio" for="tutor">Nome do tutor</label>
+              <input type="text" class="form-control" id="tutor" name="tutor" required
+                     minlength="5" autocomplete="name" placeholder="Ex.: Maria Aparecida da Silva">
+              <div class="invalid-feedback">Informe o nome do tutor.</div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label form-obrigatorio" for="pet">Nome do pet</label>
+              <input type="text" class="form-control" id="pet" name="pet" required placeholder="Nina">
+              <div class="invalid-feedback">Informe o nome do pet.</div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label form-obrigatorio" for="porte">Porte do pet</label>
+              <select class="form-select" id="porte" name="porte" required>
+                <option value="">Selecione</option>
+                <option value="P">Pequeno (até 10 kg)</option>
+                <option value="M">Médio (11 a 25 kg)</option>
+                <option value="G">Grande (acima de 25 kg)</option>
+              </select>
+              <div class="invalid-feedback">Escolha o porte do pet.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label form-obrigatorio" for="celular-contato">Celular para confirmação</label>
+              <input type="tel" class="form-control" id="celular-contato" name="celular-contato"
+                     required inputmode="tel" placeholder="(51) 99999-0000">
+              <div class="invalid-feedback">Informe um celular para confirmarmos o horário.</div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- ===================== SERVIÇO ===================== -->
+        <fieldset class="col-12">
+          <legend class="h4">2. Serviço desejado</legend>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="form-check border rounded-3 p-3 h-100 bg-white">
+                <input class="form-check-input" type="radio" name="servico" id="servico-banho"
+                       value="banho" required>
+                <label class="form-check-label" for="servico-banho">
+                  <strong>Banho completo</strong><br>
+                  <small>Hidratação, secagem, ouvidos e unhas. Cerca de 1h30.</small>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check border rounded-3 p-3 h-100 bg-white">
+                <input class="form-check-input" type="radio" name="servico" id="servico-higienica"
+                       value="tosa-higienica">
+                <label class="form-check-label" for="servico-higienica">
+                  <strong>Tosa higiênica</strong><br>
+                  <small>Aparo de patas, barriga e região genital, com banho. Cerca de 2h.</small>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check border rounded-3 p-3 h-100 bg-white">
+                <input class="form-check-input" type="radio" name="servico" id="servico-completa"
+                       value="tosa-completa">
+                <label class="form-check-label" for="servico-completa">
+                  <strong>Tosa completa</strong><br>
+                  <small>Pelo padronizado na máquina ou na tesoura, com banho. Cerca de 2h30.</small>
+                </label>
+                <div class="invalid-feedback">Escolha um dos três serviços.</div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- ===================== DATA E HORÁRIO ===================== -->
+        <fieldset class="col-12">
+          <legend class="h4">3. Data e horário</legend>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label form-obrigatorio" for="data">Data do atendimento</label>
+              <input type="date" class="form-control" id="data" name="data" required
+                     aria-describedby="ajuda-data">
+              <div class="form-text" id="ajuda-data">
+                De segunda a sábado, com no mínimo um dia de antecedência.
+              </div>
+              <div class="invalid-feedback">Escolha uma data válida, de segunda a sábado.</div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label form-obrigatorio" for="horario">Horário disponível</label>
+              <select class="form-select" id="horario" name="horario" required disabled
+                      aria-describedby="ajuda-horario">
+                <option value="">Escolha primeiro a data</option>
+              </select>
+              <div class="form-text" id="ajuda-horario">
+                Os horários mudam conforme o dia e a duração do serviço.
+              </div>
+              <div class="invalid-feedback">Escolha um horário.</div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="observacoes">Observações</label>
+              <input type="text" class="form-control" id="observacoes" name="observacoes"
+                     placeholder="Ex.: usar shampoo antialérgico">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- ===================== MODALIDADE ===================== -->
+        <fieldset class="col-12">
+          <legend class="h4">4. Como o pet chega até nós</legend>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="form-check border rounded-3 p-3 bg-white">
+                <input class="form-check-input" type="radio" name="modo" id="modo-local"
+                       value="entrega-local" checked required>
+                <label class="form-check-label" for="modo-local">
+                  <strong>Entrega do pet na loja</strong><br>
+                  <small>Você traz o pet no horário marcado. Sem custo adicional.</small>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-check border rounded-3 p-3 bg-white">
+                <input class="form-check-input" type="radio" name="modo" id="modo-tele"
+                       value="tele-busca">
+                <label class="form-check-label" for="modo-tele">
+                  <strong>Tele-busca (leva e traz)</strong><br>
+                  <small>Buscamos e devolvemos o pet em casa. Acréscimo de R$ 25,00.</small>
+                </label>
+              </div>
+            </div>
+
+            <!-- Endereço exibido apenas quando a tele-busca é escolhida (JavaScript) -->
+            <div class="col-12" id="bloco-endereco" hidden>
+              <div class="row g-3">
+                <div class="col-md-8">
+                  <label class="form-label form-obrigatorio" for="endereco-busca">Endereço para a coleta</label>
+                  <input type="text" class="form-control" id="endereco-busca" name="endereco-busca"
+                         placeholder="Rua das Patinhas, 250, apto. 302 - Jardim Feliz">
+                  <div class="invalid-feedback">Informe o endereço em que o pet será buscado.</div>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label form-obrigatorio" for="cep-busca">CEP</label>
+                  <input type="text" class="form-control" id="cep-busca" name="cep-busca"
+                         inputmode="numeric" placeholder="00000-000">
+                  <div class="invalid-feedback">Informe o CEP da coleta.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="col-12 d-flex flex-wrap gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">Confirmar agendamento</button>
+          <button type="reset" class="btn btn-outline-secondary btn-lg">Limpar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===================== PAINEL LATERAL ===================== -->
+    <aside class="col-lg-4" aria-label="Resumo de valores">
+      <div class="card border-0 shadow-sm sticky-lg-top" style="top: 1rem;">
+        <div class="card-body">
+          <h2 class="h5">Valor do atendimento</h2>
+          <div id="painel-valor" role="status" aria-live="polite">
+            <p class="mb-0">Escolha o serviço e o porte do pet para ver o valor.</p>
+          </div>
+          <hr>
+          <p class="small mb-0">
+            Ainda não é cliente? Faça primeiro o
+            <a href="cadastro.html">cadastro de cliente e pet</a>.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Resumo e contagem regressiva preenchidos por JavaScript -->
+  <section class="resumo-agendamento rounded-3 p-4 mt-4" id="resumo-agendamento"
+           aria-live="polite" hidden></section>
+</main>
+
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
+</footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/precos.js"></script>
+<script src="js/formularios.js"></script>
+<script src="js/agendamento.js"></script>
+
+</body>
+</html>
