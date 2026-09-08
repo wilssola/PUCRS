@@ -3,32 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Wilson Oliveira Lima">
+  <meta name="description" content="Erro 404 do Pata Amiga Petshop">
   <title>Página não encontrada | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <h1>Pata Amiga Petshop</h1>
-  <nav aria-label="Menu principal">
-    <ul>
-      <li><a href="index.html">Início</a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html">Rações</a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html">Serviços</a></li>
-      <li><a href="contato.html">Contato</a></li>
-      <li><a href="ajuda.html">Ajuda</a></li>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
-<hr>
-<main>
-  <h2>Erro 404 &ndash; página não encontrada</h2>
-  <p>O endereço digitado não existe neste site. Use o menu acima para voltar à navegação.</p>
-  <p><a href="index.html">Ir para a página inicial</a></p>
+
+<main id="conteudo-principal" class="container py-5 text-center">
+  <h1 class="display-5">Erro 404 &ndash; página não encontrada</h1>
+  <p class="lead">O endereço digitado não existe neste site.</p>
+  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo"
+       width="140" height="140" class="my-4">
+  <p>
+    Use o menu acima para continuar navegando ou volte para a
+    <a href="index.html">página inicial</a>.
+  </p>
+  <a class="btn btn-primary btn-lg" href="index.html">Ir para a página inicial</a>
 </main>
-<hr>
-<footer>
-  <p><small>&copy; 2026 Pata Amiga Petshop &ndash; site acadêmico de Wilson Oliveira Lima &ndash; PUCRS.</small></p>
+
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+
 </body>
 </html>
