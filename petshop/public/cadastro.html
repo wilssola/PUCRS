@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Wilson Oliveira Lima">
+  <meta name="description" content="Formulário de cadastro do cliente e do pet do Pata Amiga Petshop.">
+  <title>Cadastro | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+</head>
+<body>
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="conteudo-principal" class="container py-5">
+  <h1>Cadastro de cliente e pet</h1>
+  <p class="lead">
+    Preencha os dados abaixo para agilizar o atendimento. Os campos marcados com
+    <span class="text-danger fw-bold">*</span> são obrigatórios.
+  </p>
+  <p>
+    <strong>Privacidade:</strong> este é um site acadêmico. Os dados não são enviados a nenhum
+    servidor &ndash; ficam apenas gravados no seu próprio navegador, para demonstrar o funcionamento.
+  </p>
+
+  <!-- Mensagens do formulário: anunciadas por leitores de tela -->
+  <div id="mensagem-cadastro" role="status" aria-live="polite" hidden></div>
+
+  <form id="form-cadastro" class="row g-4 needs-validation" novalidate>
+
+    <!-- ===================== DADOS DO CLIENTE ===================== -->
+    <fieldset class="col-12">
+      <legend class="h4">1. Dados do cliente</legend>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="nome">Nome completo</label>
+          <input type="text" class="form-control" id="nome" name="nome" required
+                 minlength="5" maxlength="80" autocomplete="name"
+                 placeholder="Ex.: Maria Aparecida da Silva">
+          <div class="invalid-feedback">Informe o nome completo (mínimo de 5 letras).</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label form-obrigatorio" for="cpf">CPF</label>
+          <input type="text" class="form-control" id="cpf" name="cpf" required
+                 inputmode="numeric" placeholder="000.000.000-00"
+                 aria-describedby="ajuda-cpf">
+          <div class="form-text" id="ajuda-cpf">Somente números; a pontuação é automática.</div>
+          <div class="invalid-feedback">Informe um CPF válido.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label form-obrigatorio" for="nascimento">Data de nascimento</label>
+          <input type="date" class="form-control" id="nascimento" name="nascimento" required
+                 min="1920-01-01">
+          <div class="invalid-feedback">Informe uma data válida (é preciso ter 18 anos ou mais).</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="email">E-mail</label>
+          <input type="email" class="form-control" id="email" name="email" required
+                 autocomplete="email" placeholder="voce@exemplo.com">
+          <div class="invalid-feedback">Informe um e-mail no formato nome@dominio.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label" for="telefone">Telefone fixo</label>
+          <input type="tel" class="form-control" id="telefone" name="telefone"
+                 inputmode="tel" placeholder="(51) 3999-0000">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label form-obrigatorio" for="celular">Celular / WhatsApp</label>
+          <input type="tel" class="form-control" id="celular" name="celular" required
+                 inputmode="tel" placeholder="(51) 99999-0000">
+          <div class="invalid-feedback">Informe um celular para contato.</div>
+        </div>
+
+        <div class="col-12">
+          <fieldset>
+            <legend class="h6 form-obrigatorio">Sexo</legend>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexo-f" value="Feminino" required>
+                <label class="form-check-label" for="sexo-f">Feminino</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexo-m" value="Masculino">
+                <label class="form-check-label" for="sexo-m">Masculino</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexo-o" value="Outro">
+                <label class="form-check-label" for="sexo-o">Outro</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sexo" id="sexo-n" value="Prefiro não informar">
+                <label class="form-check-label" for="sexo-n">Prefiro não informar</label>
+                <div class="invalid-feedback">Selecione uma das opções.</div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===================== ENDEREÇO ===================== -->
+    <fieldset class="col-12">
+      <legend class="h4">2. Endereço</legend>
+
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label form-obrigatorio" for="cep">CEP</label>
+          <input type="text" class="form-control" id="cep" name="cep" required
+                 inputmode="numeric" placeholder="00000-000" autocomplete="postal-code">
+          <div class="invalid-feedback">Informe o CEP.</div>
+        </div>
+
+        <div class="col-md-7">
+          <label class="form-label form-obrigatorio" for="logradouro">Rua / avenida</label>
+          <input type="text" class="form-control" id="logradouro" name="logradouro" required
+                 autocomplete="street-address" placeholder="Ex.: Rua das Patinhas">
+          <div class="invalid-feedback">Informe o logradouro.</div>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label form-obrigatorio" for="numero">Número</label>
+          <input type="number" class="form-control" id="numero" name="numero" required
+                 min="1" max="99999" placeholder="250">
+          <div class="invalid-feedback">Informe o número.</div>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label" for="complemento">Complemento</label>
+          <input type="text" class="form-control" id="complemento" name="complemento"
+                 placeholder="Apto. 302, bloco B">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label form-obrigatorio" for="bairro">Bairro</label>
+          <input type="text" class="form-control" id="bairro" name="bairro" required
+                 placeholder="Jardim Feliz">
+          <div class="invalid-feedback">Informe o bairro.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label form-obrigatorio" for="cidade">Cidade</label>
+          <input type="text" class="form-control" id="cidade" name="cidade" required
+                 value="Porto Alegre">
+          <div class="invalid-feedback">Informe a cidade.</div>
+        </div>
+
+        <div class="col-md-1">
+          <label class="form-label form-obrigatorio" for="uf">UF</label>
+          <select class="form-select" id="uf" name="uf" required>
+            <option value="RS" selected>RS</option>
+            <option value="SC">SC</option>
+            <option value="PR">PR</option>
+            <option value="SP">SP</option>
+            <option value="RJ">RJ</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===================== DADOS DO PET ===================== -->
+    <fieldset class="col-12">
+      <legend class="h4">3. Dados do pet</legend>
+      <p class="form-text">
+        Cadastre um pet por vez. Use o botão <em>Adicionar outro pet</em> para incluir mais animais
+        no mesmo cadastro.
+      </p>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label form-obrigatorio" for="pet-nome">Nome do pet</label>
+          <input type="text" class="form-control" id="pet-nome" placeholder="Ex.: Nina">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label form-obrigatorio" for="pet-raca">Raça</label>
+          <input type="text" class="form-control" id="pet-raca" list="racas-comuns"
+                 placeholder="Ex.: Shih-tzu ou SRD">
+          <datalist id="racas-comuns">
+            <option value="SRD (sem raça definida)"></option>
+            <option value="Shih-tzu"></option>
+            <option value="Poodle"></option>
+            <option value="Lhasa apso"></option>
+            <option value="Golden retriever"></option>
+            <option value="Persa"></option>
+            <option value="Siamês"></option>
+          </datalist>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label form-obrigatorio" for="pet-idade">Idade (anos)</label>
+          <input type="number" class="form-control" id="pet-idade" min="0" max="30" step="1"
+                 placeholder="3">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label form-obrigatorio" for="pet-porte">Porte</label>
+          <select class="form-select" id="pet-porte">
+            <option value="">Selecione</option>
+            <option value="P">Pequeno (até 10 kg)</option>
+            <option value="M">Médio (11 a 25 kg)</option>
+            <option value="G">Grande (acima de 25 kg)</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <fieldset>
+            <legend class="h6 form-obrigatorio">Espécie</legend>
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="pet-especie" id="especie-cao" value="Cão">
+                <label class="form-check-label" for="especie-cao">Cão</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="pet-especie" id="especie-gato" value="Gato">
+                <label class="form-check-label" for="especie-gato">Gato</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-6">
+          <fieldset>
+            <legend class="h6">Cuidados especiais</legend>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="pet-cuidados"
+                       id="cuidado-alergia" value="alergia de pele">
+                <label class="form-check-label" for="cuidado-alergia">Alergia de pele</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="pet-cuidados"
+                       id="cuidado-idoso" value="animal idoso">
+                <label class="form-check-label" for="cuidado-idoso">Animal idoso</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="pet-cuidados"
+                       id="cuidado-medo" value="medo de secador">
+                <label class="form-check-label" for="cuidado-medo">Medo de secador</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label" for="pet-observacoes">Observações sobre o pet</label>
+          <textarea class="form-control" id="pet-observacoes" rows="3"
+                    placeholder="Medicações, comportamento, preferências..."></textarea>
+        </div>
+
+        <div class="col-12">
+          <button type="button" class="btn btn-outline-primary" id="btn-adicionar-pet">
+            Adicionar outro pet
+          </button>
+        </div>
+
+        <div class="col-12">
+          <h3 class="h6">Pets já incluídos neste cadastro</h3>
+          <ul class="list-group" id="lista-pets"></ul>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ===================== PREFERÊNCIAS ===================== -->
+    <fieldset class="col-12">
+      <legend class="h4">4. Preferências de contato</legend>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="contato-preferido">Como prefere ser avisado</label>
+          <select class="form-select" id="contato-preferido" name="contato-preferido" required>
+            <option value="">Selecione</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Telefone">Telefone</option>
+            <option value="E-mail">E-mail</option>
+          </select>
+          <div class="invalid-feedback">Escolha a forma de contato preferida.</div>
+        </div>
+
+        <div class="col-md-6 d-flex align-items-end">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="novidades" name="novidades" value="sim">
+            <label class="form-check-label" for="novidades">
+              Quero receber promoções e lembretes de banho por e-mail
+            </label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="aceite" name="aceite" required>
+            <label class="form-check-label form-obrigatorio" for="aceite">
+              Li e aceito a <a href="ajuda.html#privacidade">política de privacidade</a>
+            </label>
+            <div class="invalid-feedback">É necessário aceitar a política de privacidade.</div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="col-12 d-flex flex-wrap gap-2">
+      <button type="submit" class="btn btn-primary btn-lg">Finalizar cadastro</button>
+      <button type="reset" class="btn btn-outline-secondary btn-lg">Limpar formulário</button>
+    </div>
+  </form>
+
+  <!-- Resumo preenchido por JavaScript depois do envio -->
+  <section class="resumo-agendamento rounded-3 p-4 mt-4" id="resumo-cadastro"
+           aria-live="polite" hidden></section>
+</main>
+
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
+</footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/formularios.js"></script>
+<script src="js/cadastro.js"></script>
+
+</body>
+</html>
