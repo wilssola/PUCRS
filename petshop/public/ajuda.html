@@ -4,257 +4,358 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Wilson Oliveira Lima">
-  <meta name="description" content="Funcionalidades do site, dicas de navegação e créditos das imagens.">
+  <meta name="description" content="Funcionalidades do site, ajustes da Fase 2, recursos de acessibilidade e créditos das imagens.">
   <title>Ajuda | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
-<!-- ================= CABEÇALHO ================= -->
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
-  <h1>Pata Amiga Petshop</h1>
-  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
-  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
-    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
-    E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
-  </address>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
 
-  <!-- Menu principal de navegação, repetido em todas as páginas -->
-  <nav aria-label="Menu principal">
-    <h2>Navegação</h2>
-    <ul>
-      <li><a href="index.html">Início</a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html">Rações</a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html">Serviços</a></li>
-      <li><a href="contato.html">Contato</a></li>
-      <li><a href="ajuda.html" aria-current="page"><strong>Ajuda</strong></a></li>
-    </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 
-<hr>
-<main>
-  <h2>Ajuda</h2>
-  <p>
-    Esta página descreve as funcionalidades do site do Pata Amiga Petshop, explica como navegar entre
-    as páginas e apresenta os créditos das imagens utilizadas.
+<main id="conteudo-principal" class="container py-5">
+  <h1>Ajuda</h1>
+  <p class="lead">
+    Esta página descreve as funcionalidades do site, os ajustes feitos da Fase 1 para a Fase 2, os
+    recursos de acessibilidade e os créditos das imagens.
   </p>
 
-  <h3>Estrutura do site</h3>
-  <p>
-    O site é formado por sete páginas HTML, todas com o mesmo cabeçalho, o mesmo menu de navegação e o
-    mesmo rodapé. O menu aparece no topo de todas as páginas, e a página aberta no momento fica destacada
-    em negrito.
-  </p>
-
-  <table border="1">
-    <caption>Páginas do site e suas funções</caption>
-    <thead>
-      <tr>
-        <th scope="col">Página</th>
-        <th scope="col">Arquivo</th>
-        <th scope="col">O que apresenta</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row"><a href="index.html">Início</a></th>
-        <td>index.html</td>
-        <td>Apresentação do petshop, destaques de cada categoria e passo a passo para comprar.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="acessorios.html">Acessórios</a></th>
-        <td>acessorios.html</td>
-        <td>Dois produtos da categoria acessórios, com foto, descrição e valor.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="racoes.html">Rações</a></th>
-        <td>racoes.html</td>
-        <td>Dois produtos da categoria rações não perecíveis, com foto, descrição e valor.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="higiene.html">Higiene e Limpeza</a></th>
-        <td>higiene.html</td>
-        <td>Dois produtos da categoria higiene e limpeza, com foto, descrição e valor.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="servicos.html">Serviços</a></th>
-        <td>servicos.html</td>
-        <td>Banho e tosa, com descrição e tabelas de valores com e sem tele-busca.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="contato.html">Contato</a></th>
-        <td>contato.html</td>
-        <td>Telefones, e-mail, endereço e formulário de contato em HTML.</td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="ajuda.html">Ajuda</a></th>
-        <td>ajuda.html</td>
-        <td>Esta página: funcionalidades, dicas de navegação, créditos e política de privacidade.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>Funcionalidades disponíveis</h3>
-  <ul>
-    <li><strong>Navegação por menu:</strong> o menu do cabeçalho leva a qualquer página do site; o rodapé
-        repete os mesmos links para quem chega ao fim da página.</li>
-    <li><strong>Catálogo de produtos:</strong> cada categoria mostra dois produtos com fotografia,
-        descrição, lista de características e valor à vista e parcelado.</li>
-    <li><strong>Links internos:</strong> os destaques da página inicial levam diretamente ao produto
-        correspondente, por meio de âncoras (por exemplo, <code>acessorios.html#malha-trico</code>).</li>
-    <li><strong>Tabela de serviços:</strong> a página de serviços compara os valores por porte do animal,
-        com e sem tele-busca.</li>
-    <li><strong>Formulário de contato:</strong> campos de texto, e-mail, telefone, lista de assuntos,
-        opção de tele-busca e área de mensagem.</li>
-    <li><strong>Links de ação rápida:</strong> os telefones e o e-mail do cabeçalho e do rodapé são
-        clicáveis (protocolos <code>tel:</code> e <code>mailto:</code>).</li>
-  </ul>
-
-  <h3>O que ainda não funciona nesta fase</h3>
-  <p>
-    Conforme o enunciado da Fase 1, o site foi construído apenas com HTML, sem folhas de estilo (CSS),
-    sem Bootstrap e sem JavaScript. Por isso:
-  </p>
-  <ul>
-    <li>a aparência é a padrão do navegador, sem cores, colunas ou espaçamentos personalizados;</li>
-    <li>o formulário de contato não envia dados, pois o envio depende de programação;</li>
-    <li>não há carrinho de compras, busca nem cálculo automático de valores.</li>
-  </ul>
-  <p>Esses recursos estão previstos para a Fase 2 do projeto.</p>
-
-  <h3 id="creditos">Créditos das imagens</h3>
-  <p>
-    As fotografias utilizadas são de terceiros e foram obtidas no Wikimedia Commons e no Flickr,
-    sob licenças Creative Commons ou em domínio público. O logotipo em SVG foi criado pelo autor do site.
-  </p>
-
-  <table border="1">
-    <caption>Autoria e licença de cada imagem</caption>
-    <thead>
-      <tr>
-        <th scope="col">Arquivo</th>
-        <th scope="col">Título original</th>
-        <th scope="col">Autor</th>
-        <th scope="col">Licença</th>
-        <th scope="col">Fonte</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">img/roupa-pet.jpg</th>
-        <td>Dachshund Wearing Dog Sweater</td>
-        <td>Howard O. Young</td>
-        <td>CC BY 2.0</td>
-        <td><a href="https://www.flickr.com/photos/16947083@N06/4195466130">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/brinquedo-mordedor.jpg</th>
-        <td>Still Life with Dog Toys</td>
-        <td>Kathleen Tyler Conklin</td>
-        <td>CC BY 2.0</td>
-        <td><a href="https://www.flickr.com/photos/79865753@N00/3177170536">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/racao-cao.jpg</th>
-        <td>Pile of Kibble Dog Food (51049786351)</td>
-        <td>Megan Marrs</td>
-        <td>CC BY 2.0</td>
-        <td><a href="https://commons.wikimedia.org/wiki/File%3APile_of_Kibble_Dog_Food_%2851049786351%29.jpg">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/racao-gato.jpg</th>
-        <td>Catfood</td>
-        <td>Robdav69 at English Wikipedia</td>
-        <td>Public domain</td>
-        <td><a href="https://commons.wikimedia.org/wiki/File%3ACatfood.jpg">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/shampoo-pet.jpg</th>
-        <td>Shingoli Shampoo Aloe Vera &amp; Neem Front</td>
-        <td>Shingoli</td>
-        <td>CC BY-SA 4.0</td>
-        <td><a href="https://commons.wikimedia.org/wiki/File%3AShingoli_Shampoo_Aloe_Vera_%26_Neem_Front.jpg">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/areia-higienica.jpg</th>
-        <td>Fresh cat litter close up</td>
-        <td>CambridgeBayWeather</td>
-        <td>CC BY-SA 3.0</td>
-        <td><a href="https://commons.wikimedia.org/wiki/File:Fresh_cat_litter_close_up.JPG">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/banho.jpg</th>
-        <td>Dog Bath</td>
-        <td>Carollainy</td>
-        <td>CC BY-SA 2.0</td>
-        <td><a href="https://www.flickr.com/photos/12590180@N06/4738253097">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/tosa.jpg</th>
-        <td>Killeen-Dog-Grooming-1</td>
-        <td>NormZC</td>
-        <td>CC BY 2.0</td>
-        <td><a href="https://www.flickr.com/photos/71410923@N03/6455931115">Ver original</a></td>
-      </tr>
-      <tr>
-        <th scope="row">img/logo.svg</th>
-        <td>Logotipo Pata Amiga</td>
-        <td>Wilson Oliveira Lima</td>
-        <td>Criação própria</td>
-        <td>&ndash;</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3 id="privacidade">Política de privacidade</h3>
-  <p>
-    Este site é um trabalho acadêmico e não coleta, armazena nem compartilha dados pessoais.
-    Os campos do formulário de contato são apenas demonstrativos e nenhuma informação digitada
-    é enviada a servidores. Empresa, endereço, CNPJ e preços são fictícios.
-  </p>
-
-  <h3>Suporte</h3>
-  <p>
-    Dúvidas sobre o site podem ser enviadas para
-    <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>.
-  </p>
-</main>
-
-<hr>
-
-<!-- ================= RODAPÉ ================= -->
-<footer>
-  <h2>Pata Amiga Petshop</h2>
-
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
-    E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a><br>
-    CNPJ (fictício): 12.345.678/0001-90
-  </address>
-
-  <nav aria-label="Navegação do rodapé">
-    <p><a href="index.html">Início</a> &nbsp;|&nbsp; <a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="racoes.html">Rações</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="servicos.html">Serviços</a> &nbsp;|&nbsp; <a href="contato.html">Contato</a></p>
+  <!-- ===================== SUMÁRIO ===================== -->
+  <nav aria-label="Sumário desta página" class="mb-4">
+    <ul class="list-inline mb-0">
+      <li class="list-inline-item"><a href="#paginas">Páginas</a></li>
+      <li class="list-inline-item"><a href="#funcionalidades">Funcionalidades</a></li>
+      <li class="list-inline-item"><a href="#ajustes">Ajustes da Fase 2</a></li>
+      <li class="list-inline-item"><a href="#acessibilidade">Acessibilidade</a></li>
+      <li class="list-inline-item"><a href="#creditos">Créditos</a></li>
+      <li class="list-inline-item"><a href="#privacidade">Privacidade</a></li>
+    </ul>
   </nav>
 
-  <p><small>
-    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
-    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
-    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
-    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
-    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
-    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
-    <a href="ajuda.html#privacidade">Política de privacidade</a>.
-  </small></p>
+  <section aria-labelledby="paginas">
+    <h2 id="paginas">Páginas do site</h2>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <caption>Páginas e o que cada uma apresenta</caption>
+        <thead class="table-dark">
+          <tr><th scope="col">Página</th><th scope="col">Arquivo</th><th scope="col">Conteúdo</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><a href="index.html">Início</a></th><td>index.html</td>
+              <td>Carrossel de destaques, apresentação, produtos em evidência e passo a passo do agendamento.</td></tr>
+          <tr><th scope="row"><a href="acessorios.html">Acessórios</a></th><td>acessorios.html</td>
+              <td>Dois produtos da categoria, com busca e ordenação por preço ou nome.</td></tr>
+          <tr><th scope="row"><a href="racoes.html">Rações</a></th><td>racoes.html</td>
+              <td>Dois produtos da categoria rações não perecíveis.</td></tr>
+          <tr><th scope="row"><a href="higiene.html">Higiene e Limpeza</a></th><td>higiene.html</td>
+              <td>Dois produtos de higiene e limpeza.</td></tr>
+          <tr><th scope="row"><a href="servicos.html">Serviços</a></th><td>servicos.html</td>
+              <td>Banho e tosa, tabelas de preços por porte e simulador de valores.</td></tr>
+          <tr><th scope="row"><a href="agendamento.html">Agendamento</a></th><td>agendamento.html</td>
+              <td>Escolha do serviço, calendário, horários, tele-busca ou entrega na loja.</td></tr>
+          <tr><th scope="row"><a href="cadastro.html">Cadastro</a></th><td>cadastro.html</td>
+              <td>Formulário de cadastro do cliente e do pet, com validação.</td></tr>
+          <tr><th scope="row"><a href="contato.html">Contato</a></th><td>contato.html</td>
+              <td>Dados de contato e formulário de mensagens.</td></tr>
+          <tr><th scope="row"><a href="ajuda.html">Ajuda</a></th><td>ajuda.html</td>
+              <td>Esta página.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="funcionalidades">
+    <h2 id="funcionalidades">Funcionalidades</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <h3 class="h5">Navegação e visual</h3>
+        <ul>
+          <li>Menu responsivo (navbar do Bootstrap) que vira botão sanduíche no celular, com submenu de produtos.</li>
+          <li>Carrossel de imagens na página inicial, com indicadores, botões e troca automática a cada 5 segundos.</li>
+          <li>Cartões de produtos em grade que se reorganiza conforme o tamanho da tela.</li>
+          <li>Tabelas de preços responsivas, com rolagem horizontal em telas pequenas.</li>
+        </ul>
+      </div>
+
+      <div class="col-md-6">
+        <h3 class="h5">Funções em JavaScript</h3>
+        <ul>
+          <li><strong>Funções temporais:</strong> relógio com data e hora atualizado a cada segundo, saudação conforme o período do dia e aviso de loja aberta ou fechada.</li>
+          <li><strong>Contagem regressiva</strong> até o horário do atendimento agendado.</li>
+          <li><strong>Busca e ordenação</strong> de produtos por nome ou preço, sem recarregar a página.</li>
+          <li><strong>Simulador de preços</strong> dos serviços por porte, com e sem tele-busca.</li>
+          <li><strong>Validação de formulários</strong> com máscaras de CPF, telefone e CEP e verificação dos dígitos do CPF.</li>
+          <li><strong>Calendário</strong> que bloqueia domingos e datas passadas e gera os horários disponíveis conforme o serviço.</li>
+          <li><strong>Ano do rodapé</strong> preenchido automaticamente.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="h5">Arquivos de código</h3>
+    <ul>
+      <li><code>css/estilo.css</code> &ndash; identidade visual e recursos de acessibilidade.</li>
+      <li><code>js/app.js</code> &ndash; funções comuns a todas as páginas.</li>
+      <li><code>js/precos.js</code> &ndash; tabela de preços compartilhada.</li>
+      <li><code>js/formularios.js</code> &ndash; máscaras, validações e mensagens acessíveis.</li>
+      <li><code>js/cadastro.js</code> &ndash; formulário de cliente e pet.</li>
+      <li><code>js/agendamento.js</code> &ndash; calendário, horários e contagem regressiva.</li>
+      <li><code>js/produtos.js</code> &ndash; busca, ordenação e simulador de serviços.</li>
+      <li><code>vendor/bootstrap/</code> &ndash; Bootstrap 5.3.3 hospedado no próprio site.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="ajustes">
+    <h2 id="ajustes">Ajustes realizados da Fase 1 para a Fase 2</h2>
+    <ol>
+      <li><strong>Estilização:</strong> as páginas, que antes usavam apenas a aparência padrão do navegador, passaram a usar Bootstrap 5.3 e uma folha de estilo própria com a paleta da marca.</li>
+      <li><strong>Estrutura de arquivos:</strong> o código foi separado em <code>css/</code>, <code>js/</code> e <code>vendor/</code>, com comentários explicativos em cada arquivo.</li>
+      <li><strong>Navegação:</strong> a lista simples de links virou um menu responsivo com submenu de produtos e botão de destaque para o agendamento.</li>
+      <li><strong>Página inicial:</strong> ganhou carrossel de imagens, cartões de destaque e o passo a passo do agendamento.</li>
+      <li><strong>Novas páginas:</strong> foram criadas <a href="cadastro.html">Cadastro</a> e <a href="agendamento.html">Agendamento</a>.</li>
+      <li><strong>Formulário de contato:</strong> o formulário estático da Fase 1 recebeu validação, máscaras e mensagens de confirmação.</li>
+      <li><strong>Imagens:</strong> os textos alternativos foram reescritos com audiodescrição detalhada, e não apenas com o nome do produto.</li>
+      <li><strong>Correções:</strong> foram padronizados os títulos das páginas, a hierarquia de cabeçalhos (um <code>h1</code> por página) e os dados de contato fictícios em todas as páginas; também foi criada a página de erro 404 no novo layout.</li>
+      <li><strong>Bootstrap local:</strong> os arquivos do Bootstrap foram copiados para o projeto, de modo que o site continua funcionando mesmo sem acesso a servidores externos.</li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="acessibilidade">
+    <h2 id="acessibilidade">Recursos de acessibilidade</h2>
+    <p>O site foi adaptado para pessoas com deficiência visual e para quem navega apenas pelo teclado:</p>
+    <ul>
+      <li><strong>Audiodescrição das imagens:</strong> todas as imagens têm o atributo <code>alt</code> descrevendo a cena, e não apenas o nome do arquivo.</li>
+      <li><strong>Alto contraste:</strong> botão na faixa superior que troca o site para fundo preto com texto amarelo; a escolha fica salva no navegador.</li>
+      <li><strong>Aumento de fonte:</strong> botões A+ e A- que ampliam todo o texto em até 25%.</li>
+      <li><strong>Link "pular para o conteúdo":</strong> primeiro item alcançado pela tecla Tab, evitando repetir o menu em toda página.</li>
+      <li><strong>Regiões <code>aria-live</code>:</strong> mensagens de erro, confirmações e resultados de busca são anunciados por leitores de tela.</li>
+      <li><strong>Marcações semânticas:</strong> <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>aside</code> e <code>footer</code>, com <code>aria-label</code> quando necessário.</li>
+      <li><strong>Formulários:</strong> todo campo tem <code>label</code> associado, campos obrigatórios sinalizados e mensagens de erro ligadas ao campo.</li>
+      <li><strong>Foco visível:</strong> contorno azul reforçado em links, botões e campos ao navegar pelo teclado.</li>
+      <li><strong>Tabelas:</strong> com <code>caption</code> e cabeçalhos marcados por <code>scope</code>.</li>
+      <li><strong>Menos animações:</strong> quando o sistema operacional pede redução de movimento, o carrossel para de girar sozinho.</li>
+      <li><strong>Idioma declarado:</strong> <code>lang="pt-BR"</code> em todas as páginas, para a pronúncia correta dos leitores de tela.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="creditos">
+    <h2 id="creditos">Créditos das imagens</h2>
+    <p>
+      As fotografias são de terceiros, obtidas no Wikimedia Commons e no Flickr sob licenças
+      Creative Commons ou em domínio público. O logotipo em SVG foi criado pelo autor do site.
+    </p>
+    <div class="table-responsive">
+      <table class="table table-sm table-striped">
+        <caption>Autoria e licença de cada imagem</caption>
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Arquivo</th><th scope="col">Título original</th>
+            <th scope="col">Autor</th><th scope="col">Licença</th><th scope="col">Fonte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">img/roupa-pet.jpg</th>
+            <td>Dachshund Wearing Dog Sweater</td>
+            <td>Howard O. Young</td>
+            <td>CC BY 2.0</td>
+            <td><a href="https://www.flickr.com/photos/16947083@N06/4195466130">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/brinquedo-mordedor.jpg</th>
+            <td>Still Life with Dog Toys</td>
+            <td>Kathleen Tyler Conklin</td>
+            <td>CC BY 2.0</td>
+            <td><a href="https://www.flickr.com/photos/79865753@N00/3177170536">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/racao-cao.jpg</th>
+            <td>Pile of Kibble Dog Food (51049786351)</td>
+            <td>Megan Marrs</td>
+            <td>CC BY 2.0</td>
+            <td><a href="https://commons.wikimedia.org/wiki/File%3APile_of_Kibble_Dog_Food_%2851049786351%29.jpg">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/racao-gato.jpg</th>
+            <td>Catfood</td>
+            <td>Robdav69 at English Wikipedia</td>
+            <td>Public domain</td>
+            <td><a href="https://commons.wikimedia.org/wiki/File%3ACatfood.jpg">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/shampoo-pet.jpg</th>
+            <td>Shingoli Shampoo Aloe Vera &amp; Neem Front</td>
+            <td>Shingoli</td>
+            <td>CC BY-SA 4.0</td>
+            <td><a href="https://commons.wikimedia.org/wiki/File%3AShingoli_Shampoo_Aloe_Vera_%26_Neem_Front.jpg">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/areia-higienica.jpg</th>
+            <td>Fresh cat litter close up</td>
+            <td>CambridgeBayWeather</td>
+            <td>CC BY-SA 3.0</td>
+            <td><a href="https://commons.wikimedia.org/wiki/File:Fresh_cat_litter_close_up.JPG">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/banho.jpg</th>
+            <td>Dog Bath</td>
+            <td>Carollainy</td>
+            <td>CC BY-SA 2.0</td>
+            <td><a href="https://www.flickr.com/photos/12590180@N06/4738253097">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/tosa.jpg</th>
+            <td>Killeen-Dog-Grooming-1</td>
+            <td>NormZC</td>
+            <td>CC BY 2.0</td>
+            <td><a href="https://www.flickr.com/photos/71410923@N03/6455931115">Ver original</a></td>
+          </tr>
+          <tr>
+            <th scope="row">img/logo.svg</th>
+            <td>Logotipo Pata Amiga</td>
+            <td>Wilson Oliveira Lima</td>
+            <td>Criação própria</td>
+            <td>&ndash;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="privacidade">
+    <h2 id="privacidade">Política de privacidade</h2>
+    <p>
+      Este site é um trabalho acadêmico e não possui servidor: os dados digitados nos formulários de
+      cadastro e de agendamento ficam gravados apenas no armazenamento local do seu próprio
+      navegador (<code>localStorage</code>) e podem ser apagados a qualquer momento limpando os
+      dados do site. Nenhuma informação é enviada para terceiros. Empresa, endereço, CNPJ, telefones
+      e preços são fictícios.
+    </p>
+  </section>
+</main>
+
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 </html>
