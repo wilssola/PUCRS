@@ -17,6 +17,7 @@ import { Estudante } from '../src/domain/clients/Estudante.js';
 import { Professor } from '../src/domain/clients/Professor.js';
 import { Empresa } from '../src/domain/clients/Empresa.js';
 import { Desconto } from '../src/domain/discounts/Desconto.js';
+import { DescontoClienteFrequente } from '../src/domain/discounts/DescontoClienteFrequente.js';
 import {
   EntradaNaoAutorizadaError,
   LimiteDePlacasError,
@@ -138,18 +139,75 @@ teste('avulso: virada de meia-noite cobra uma nova diária', () => {
   assert.equal(t.custo, 10 + 35); // 2h no primeiro dia + diária do dia seguinte
 });
 
-teste('avulso: 3 usos em 5 dias garantem 20% de desconto no quarto', () => {
+/** Atalho: uma utilização completa da mesma placa, das 9h às 11h. */
+function utilizar(registro, placa, dia, horaSaida = 11) {
+  registro.autorizarEntrada(placa, d(dia, 9));
+  return registro.processarSaida(placa, d(dia, horaSaida));
+}
+
+teste('avulso: as duas primeiras utilizações não têm desconto', () => {
   const { registro } = novoSistema();
-  for (const dia of [18, 19, 20]) {
-    registro.autorizarEntrada('AVU1A11', d(dia, 9));
-    registro.processarSaida('AVU1A11', d(dia, 11));
-  }
-  registro.autorizarEntrada('AVU1A11', d(21, 9));
-  const t = registro.processarSaida('AVU1A11', d(21, 13));
-  assert.equal(t.custo, 20);
-  assert.equal(t.identificadorDesconto, 'Cliente Frequente');
-  assert.equal(t.valorDesconto, 4);
-  assert.equal(t.valorDevido, 16);
+  const primeira = utilizar(registro, 'AVU1A11', 18);
+  const segunda = utilizar(registro, 'AVU1A11', 19);
+
+  assert.equal(primeira.identificadorDesconto, 'nenhum');
+  assert.equal(primeira.valorDesconto, 0);
+  assert.equal(segunda.identificadorDesconto, 'nenhum');
+  assert.equal(segunda.valorDesconto, 0);
+});
+
+teste('avulso: a TERCEIRA utilização em 5 dias já recebe 20% de desconto', () => {
+  const { registro } = novoSistema();
+  utilizar(registro, 'AVU1A11', 18);
+  utilizar(registro, 'AVU1A11', 19);
+  const terceira = utilizar(registro, 'AVU1A11', 20, 13); // 4h -> R$ 20,00
+
+  assert.equal(terceira.custo, 20);
+  assert.equal(terceira.identificadorDesconto, 'ClienteFrequente');
+  assert.equal(terceira.valorDesconto, 4);
+  assert.equal(terceira.valorDevido, 16);
+});
+
+teste('avulso: o desconto se repete nas utilizações seguintes', () => {
+  const { registro } = novoSistema();
+  utilizar(registro, 'AVU1A11', 18);
+  utilizar(registro, 'AVU1A11', 19);
+  utilizar(registro, 'AVU1A11', 20);
+  const quarta = utilizar(registro, 'AVU1A11', 21, 13);
+
+  assert.equal(quarta.identificadorDesconto, 'ClienteFrequente');
+  assert.equal(quarta.valorDesconto, 4);
+});
+
+teste('avulso: utilizações fora da janela de 5 dias não contam', () => {
+  const { registro } = novoSistema();
+  utilizar(registro, 'AVU1A11', 10);  // 10/05: fora da janela
+  utilizar(registro, 'AVU1A11', 11);  // 11/05: fora da janela
+  const terceira = utilizar(registro, 'AVU1A11', 20, 13);
+
+  assert.equal(terceira.identificadorDesconto, 'nenhum');
+  assert.equal(terceira.valorDesconto, 0);
+});
+
+teste('desconto de cliente frequente não vale para pré-cadastrados', () => {
+  const { cadastro, registro } = novoSistema();
+  const aluno = new Estudante('111', 'Marina', 200);
+  aluno.adicionarPlaca('IEE1I11');
+  cadastro.cadastrarCliente(aluno);
+
+  utilizar(registro, 'IEE1I11', 18);
+  utilizar(registro, 'IEE1I11', 19);
+  const terceira = utilizar(registro, 'IEE1I11', 20);
+
+  assert.equal(terceira.identificadorDesconto, 'nenhum');
+  assert.equal(terceira.valorDevido, 12); // ingresso cheio do estudante
+});
+
+teste('o identificador do desconto é exatamente "ClienteFrequente"', () => {
+  assert.equal(DescontoClienteFrequente.IDENTIFICADOR, 'ClienteFrequente');
+  assert.equal(DescontoClienteFrequente.PERCENTUAL, 20);
+  assert.equal(DescontoClienteFrequente.USOS_MINIMOS, 3);
+  assert.equal(DescontoClienteFrequente.JANELA_EM_DIAS, 5);
 });
 
 teste('avulso: recusa de pagamento libera a saída e bloqueia a placa', () => {
