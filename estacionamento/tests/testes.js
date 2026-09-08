@@ -156,7 +156,7 @@ teste('avulso: as duas primeiras utilizações não têm desconto', () => {
   assert.equal(segunda.valorDesconto, 0);
 });
 
-teste('avulso: a terceira utilização em 5 dias já recebe 20% de desconto', () => {
+teste('avulso: a TERCEIRA utilização em 5 dias já recebe 20% de desconto', () => {
   const { registro } = novoSistema();
   utilizar(registro, 'AVU1A11', 18);
   utilizar(registro, 'AVU1A11', 19);
