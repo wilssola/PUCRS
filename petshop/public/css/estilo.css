@@ -136,29 +136,80 @@ textarea:focus-visible,
 /* --------------------------------------------------------------------------
    5. Carrossel da página inicial
    -------------------------------------------------------------------------- */
+/* As fotos originais têm proporções diferentes (algumas são verticais). Para
+   que nenhuma seja cortada nem esticada em monitores largos, a foto aparece
+   inteira (object-fit: contain) sobre uma cópia dela mesma desfocada, que
+   preenche a faixa. A altura acompanha a janela, com limites mínimo e máximo. */
+.carrossel-principal {
+  max-width: 1600px;
+  margin-inline: auto;
+  background-color: var(--pa-marrom);
+}
+
+.carrossel-principal .carousel-item {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--pa-marrom);
+}
+
+/* Fundo desfocado: herda a imagem definida no próprio slide */
+.carrossel-principal .carousel-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(26px) brightness(0.5);
+  transform: scale(1.15);
+}
+
 .carrossel-principal img {
-  height: 420px;
-  object-fit: cover;
-  filter: brightness(0.72);
+  position: relative;
+  width: 100%;
+  height: 52vh;
+  min-height: 300px;
+  max-height: 560px;
+  object-fit: contain;
+  filter: brightness(0.85);
 }
 
 .carrossel-principal .carousel-caption {
-  background: rgba(36, 26, 18, 0.72);
+  background: rgba(36, 26, 18, 0.82);
   border-radius: 0.75rem;
   padding: 1rem 1.25rem;
   bottom: 2.5rem;
 }
 
+/* Em telas grandes a legenda fica à esquerda, sobre a área desfocada, para não
+   cobrir o animal que aparece no centro da foto. */
+@media (min-width: 992px) {
+  .carrossel-principal .carousel-caption {
+    left: 3%;
+    right: auto;
+    max-width: 38%;
+    text-align: left;
+  }
+}
+
 @media (max-width: 767.98px) {
   .carrossel-principal img {
-    height: 260px;
+    aspect-ratio: 4 / 3;
+    max-height: 45vh;
   }
 
+  /* No celular a legenda sai de cima da foto e vira uma tarja abaixo dela;
+     position: relative (e não static) mantém a tarja acima do fundo desfocado. */
   .carrossel-principal .carousel-caption {
-    position: static;
+    position: relative;
+    left: auto;
+    right: auto;
+    max-width: none;
+    z-index: 2;
     background: var(--pa-marrom);
     color: #fff;
     border-radius: 0;
+    text-align: left;
   }
 }
 
