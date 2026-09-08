@@ -9,7 +9,7 @@
  *  1. carga dos arquivos CSV (clientes e registros);
  *  2. cadastro de clientes e de placas, com os limites de cada categoria;
  *  3. cliente avulso: valor por hora, diária e virada de meia-noite;
- *  4. desconto "Cliente Frequente" (3 usos em 5 dias, 20%);
+ *  4. desconto "ClienteFrequente" (3 usos em 5 dias, 20%);
  *  5. recusa de pagamento e lista de bloqueio;
  *  6. estudante: ingresso por dia, saldo pré-pago e saldo negativo;
  *  7. professor: gratuidade e apenas um veículo por vez;
@@ -75,13 +75,19 @@ app.saida('AVU2A22', new Date(2026, 4, 18, 17, 0));
 app.entrada('AVU3A33', new Date(2026, 4, 18, 22, 0));
 app.saida('AVU3A33', new Date(2026, 4, 19, 3, 0));
 
-app.titulo('4. DESCONTO "CLIENTE FREQUENTE" (3 USOS EM 5 DIAS = 20%)');
+app.titulo('4. DESCONTO "ClienteFrequente" (3 USOS EM 5 DIAS = 20%)');
 
+// a placa AVU1A11 já teve a primeira utilização no bloco anterior (18/05)
+app.escrever('  Segunda utilização em cinco dias: ainda sem desconto.');
 app.entrada('AVU1A11', new Date(2026, 4, 19, 9, 0));
 app.saida('AVU1A11', new Date(2026, 4, 19, 11, 0));
+
+app.escrever('  Terceira utilização em cinco dias: o desconto passa a valer.');
 app.entrada('AVU1A11', new Date(2026, 4, 20, 9, 0));
 app.saida('AVU1A11', new Date(2026, 4, 20, 11, 0));
-app.escrever('  Quarta utilização em cinco dias: o desconto deve ser aplicado.');
+
+app.escrever('  Quarta utilização: o desconto é concedido novamente, pois o');
+app.escrever('  benefício independe de o cliente já ter sido beneficiado antes.');
 app.entrada('AVU1A11', new Date(2026, 4, 21, 9, 0));
 app.saida('AVU1A11', new Date(2026, 4, 21, 13, 0));
 
