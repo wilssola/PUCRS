@@ -1,5 +1,5 @@
 ---
-title: Sistema de Controle de Estacionamento - EstACME (Fase 1)
+title: Sistema de Controle de Estacionamento - EstACME (Fases 1 e 2)
 ---
 classDiagram
     direction TB
@@ -12,13 +12,32 @@ classDiagram
         -CadastroClientes cadastro
         -RegistroDeEntradas_E_Saidas registro
         -RelatoriosGerenciais relatorios
+        -Terminal terminal
         -String pastaDados
-        +iniciar() App
+        -boolean alteracoesPendentes
+        +iniciar(opcoes) App
+        +executar() Promise
+        +salvar() boolean
         +encerrar() void
         +entrada(placa, dataHora) TicketEstacionamento
         +saida(placa, dataHora, opcoes) TicketEstacionamento
         +mostrarSituacao(documento) Object
         +mostrarRelatorios(ano) void
+    }
+
+    class Terminal {
+        -Interface leitor
+        +abrir() Terminal
+        +fechar() void
+        +escrever(texto) void
+        +titulo(texto) void
+        +tabela(cabecalho, linhas) void
+        +perguntar(pergunta) Promise
+        +perguntarNumero(pergunta, opcoes) Promise
+        +perguntarDataHora(pergunta, opcoes) Promise
+        +menu(titulo, opcoes) Promise
+        +confirmar(pergunta, padrao) Promise
+        +converterDataHora(texto, fimDoDia)$ Date
     }
 
     class RelatoriosGerenciais {
@@ -188,6 +207,7 @@ classDiagram
     Desconto <|-- DescontoClienteFrequente
 
     %% -------------------------------------------------------- associações
+    App --> Terminal : entrada e saída de texto
     App --> RelatoriosGerenciais
     App --> RegistroDeEntradas_E_Saidas
     App --> CadastroClientes
