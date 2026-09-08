@@ -4,214 +4,288 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Wilson Oliveira Lima">
-  <meta name="description" content="Banho e tosa com ou sem tele-busca: descrição e tabela de valores por porte.">
+  <meta name="description" content="Banho e tosa com ou sem tele-busca: tabelas de preços por porte e simulador de valores.">
   <title>Serviços | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
-<!-- ================= CABEÇALHO ================= -->
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
-  <h1>Pata Amiga Petshop</h1>
-  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
-  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
-    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a>
-  </address>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
 
-  <!-- Menu principal de navegação, repetido em todas as páginas -->
-  <nav aria-label="Menu principal">
-    <h2>Navegação</h2>
-    <ul>
-      <li><a href="index.html">Início</a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html">Rações</a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html" aria-current="page"><strong>Serviços</strong></a></li>
-      <li><a href="contato.html">Contato</a></li>
-      <li><a href="ajuda.html">Ajuda</a></li>
-    </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 
-<hr>
-<main>
-  <h2>Serviços de banho e tosa</h2>
-  <p>
-    Nossos serviços são realizados por profissionais especializados, com produtos hipoalergênicos e
-    secadores de baixo ruído. Todos os serviços podem ser contratados <strong>com</strong> ou
-    <strong>sem tele-busca</strong>: no serviço com tele-busca, buscamos o animal em casa e o devolvemos
-    depois do atendimento, sem custo de deslocamento para o tutor.
+<main id="conteudo-principal" class="container py-5">
+  <h1>Serviços de banho e tosa</h1>
+  <p class="lead">
+    Atendimento com produtos hipoalergênicos e secadores de baixo ruído. Todos os serviços podem ser
+    contratados <strong>com tele-busca</strong> (buscamos e devolvemos o pet em casa) ou com
+    <strong>entrega do pet na loja</strong>.
   </p>
 
-  <section>
-    <h3>Banho</h3>
-    <figure>
-      <img src="img/banho.jpg" alt="Cão cocker spaniel recém-banhado, com o pelo molhado" width="300">
-      <figcaption>Banho completo, com secagem e finalização.</figcaption>
-    </figure>
-    <p>
-      O banho inclui shampoo e condicionador adequados ao tipo de pelo, hidratação, secagem,
-      escovação, limpeza de ouvidos, corte de unhas e perfume finalizador.
-      Duração média: 1 hora e 30 minutos.
-    </p>
+  <!-- ===================== SIMULADOR (JavaScript) ===================== -->
+  <section class="card border-0 shadow-sm my-4" aria-labelledby="titulo-simulador">
+    <div class="card-body">
+      <h2 id="titulo-simulador" class="h4">Simulador de valores</h2>
+      <p>Escolha as opções para ver o valor estimado antes de agendar.</p>
 
-    <table border="1">
-      <caption>Valores do banho por porte do animal</caption>
-      <thead>
-        <tr>
-          <th scope="col">Porte do animal</th>
-          <th scope="col">Descrição do serviço</th>
-          <th scope="col">Sem tele-busca</th>
-          <th scope="col">Com tele-busca</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Pequeno (até 10 kg)</th>
-          <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
-          <td>R$ 45,00</td>
-          <td>R$ 70,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Médio (de 11 a 25 kg)</th>
-          <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
-          <td>R$ 65,00</td>
-          <td>R$ 90,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Grande (acima de 25 kg)</th>
-          <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
-          <td>R$ 85,00</td>
-          <td>R$ 110,00</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="sim-servico">Serviço</label>
+          <select class="form-select" id="sim-servico">
+            <option value="banho">Banho completo</option>
+            <option value="tosa-higienica">Tosa higiênica (com banho)</option>
+            <option value="tosa-completa">Tosa completa (com banho)</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label class="form-label" for="sim-porte">Porte do pet</label>
+          <select class="form-select" id="sim-porte">
+            <option value="P">Pequeno (até 10 kg)</option>
+            <option value="M">Médio (de 11 a 25 kg)</option>
+            <option value="G">Grande (acima de 25 kg)</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="sim-telebusca">
+            <label class="form-check-label" for="sim-telebusca">Com tele-busca (+ R$ 25,00)</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="resumo-agendamento rounded-3 p-3 mt-3" id="sim-resultado"
+           role="status" aria-live="polite"></div>
+
+      <a class="btn btn-primary mt-3" href="agendamento.html">Agendar este serviço</a>
+    </div>
   </section>
 
-  <hr>
+  <!-- ===================== BANHO ===================== -->
+  <section class="row g-4 align-items-center mb-5" aria-labelledby="titulo-banho">
+    <div class="col-lg-4">
+      <img src="img/banho.jpg" class="img-fluid rounded-3"
+           alt="Cão cocker spaniel de pelo preto e branco recém-banhado, ainda molhado, sendo segurado pelo tutor">
+    </div>
+    <div class="col-lg-8">
+      <h2 id="titulo-banho">Banho</h2>
+      <p>
+        Inclui shampoo e condicionador adequados ao tipo de pelo, hidratação, secagem, escovação,
+        limpeza de ouvidos, corte de unhas e perfume finalizador. Duração média: 1 hora e 30 minutos.
+      </p>
 
-  <section>
-    <h3>Tosa</h3>
-    <figure>
-      <img src="img/tosa.jpg" alt="Cão de pelo claro sobre a mesa de tosa de um petshop" width="260">
-      <figcaption>Tosa higiênica e tosa completa, na tesoura ou na máquina.</figcaption>
-    </figure>
-    <p>
-      A <strong>tosa higiênica</strong> apara os pelos das patas, da barriga e da região genital, sem alterar
-      o formato da pelagem. A <strong>tosa completa</strong> padroniza todo o pelo, na máquina ou na tesoura,
-      e pode seguir o padrão da raça. As duas modalidades já incluem o banho.
-    </p>
-
-    <table border="1">
-      <caption>Valores da tosa por porte do animal</caption>
-      <thead>
-        <tr>
-          <th scope="col">Serviço</th>
-          <th scope="col">Porte</th>
-          <th scope="col">Descrição do serviço</th>
-          <th scope="col">Sem tele-busca</th>
-          <th scope="col">Com tele-busca</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Tosa higiênica</th>
-          <td>Pequeno</td>
-          <td>Banho + aparo de patas, barriga e região genital</td>
-          <td>R$ 60,00</td>
-          <td>R$ 85,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Tosa higiênica</th>
-          <td>Médio</td>
-          <td>Banho + aparo de patas, barriga e região genital</td>
-          <td>R$ 80,00</td>
-          <td>R$ 105,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Tosa higiênica</th>
-          <td>Grande</td>
-          <td>Banho + aparo de patas, barriga e região genital</td>
-          <td>R$ 100,00</td>
-          <td>R$ 125,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Tosa completa</th>
-          <td>Pequeno</td>
-          <td>Banho + tosa de todo o pelo, na máquina ou na tesoura</td>
-          <td>R$ 90,00</td>
-          <td>R$ 115,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Tosa completa</th>
-          <td>Médio</td>
-          <td>Banho + tosa de todo o pelo, na máquina ou na tesoura</td>
-          <td>R$ 120,00</td>
-          <td>R$ 145,00</td>
-        </tr>
-        <tr>
-          <th scope="row">Tosa completa</th>
-          <td>Grande</td>
-          <td>Banho + tosa de todo o pelo, na máquina ou na tesoura</td>
-          <td>R$ 150,00</td>
-          <td>R$ 175,00</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+          <caption>Valores do banho por porte do animal</caption>
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Porte do animal</th>
+              <th scope="col">Descrição do serviço</th>
+              <th scope="col">Sem tele-busca</th>
+              <th scope="col">Com tele-busca</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Pequeno (até 10 kg)</th>
+              <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
+              <td>R$ 45,00</td><td>R$ 70,00</td>
+            </tr>
+            <tr>
+              <th scope="row">Médio (de 11 a 25 kg)</th>
+              <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
+              <td>R$ 65,00</td><td>R$ 90,00</td>
+            </tr>
+            <tr>
+              <th scope="row">Grande (acima de 25 kg)</th>
+              <td>Banho, secagem, limpeza de ouvidos e corte de unhas</td>
+              <td>R$ 85,00</td><td>R$ 110,00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
-  <hr>
+  <!-- ===================== TOSA ===================== -->
+  <section class="row g-4 align-items-center mb-5" aria-labelledby="titulo-tosa">
+    <div class="col-lg-4">
+      <img src="img/tosa.jpg" class="img-fluid rounded-3"
+           alt="Cão de pelo claro em pé sobre a mesa de tosa do petshop, com coleiras penduradas ao fundo">
+    </div>
+    <div class="col-lg-8">
+      <h2 id="titulo-tosa">Tosa</h2>
+      <p>
+        A <strong>tosa higiênica</strong> apara os pelos das patas, da barriga e da região genital,
+        sem alterar o formato da pelagem. A <strong>tosa completa</strong> padroniza todo o pelo, na
+        máquina ou na tesoura, e pode seguir o padrão da raça. As duas modalidades incluem o banho.
+      </p>
 
-  <section>
-    <h3>Tele-busca (leva e traz)</h3>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+          <caption>Valores da tosa por porte do animal</caption>
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Serviço</th>
+              <th scope="col">Porte</th>
+              <th scope="col">Sem tele-busca</th>
+              <th scope="col">Com tele-busca</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Tosa higiênica</th><td>Pequeno</td><td>R$ 60,00</td><td>R$ 85,00</td></tr>
+            <tr><th scope="row">Tosa higiênica</th><td>Médio</td><td>R$ 80,00</td><td>R$ 105,00</td></tr>
+            <tr><th scope="row">Tosa higiênica</th><td>Grande</td><td>R$ 100,00</td><td>R$ 125,00</td></tr>
+            <tr><th scope="row">Tosa completa</th><td>Pequeno</td><td>R$ 90,00</td><td>R$ 115,00</td></tr>
+            <tr><th scope="row">Tosa completa</th><td>Médio</td><td>R$ 120,00</td><td>R$ 145,00</td></tr>
+            <tr><th scope="row">Tosa completa</th><td>Grande</td><td>R$ 150,00</td><td>R$ 175,00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TELE-BUSCA ===================== -->
+  <section class="alert alert-warning" aria-labelledby="titulo-telebusca">
+    <h2 id="titulo-telebusca" class="h4">Tele-busca (leva e traz)</h2>
     <p>
-      O serviço de tele-busca custa <strong>R$ 25,00</strong> por atendimento, valor já somado nas
-      tabelas acima, e está disponível em um raio de 8 km da loja. O transporte é feito em veículo próprio,
-      com caixas de transporte individuais e climatização.
+      Custa <strong>R$ 25,00</strong> por atendimento, valor já somado nas tabelas acima, e está
+      disponível em um raio de 8 km da loja. O transporte é feito em veículo próprio, com caixas
+      individuais e climatização.
     </p>
-    <ul>
-      <li>Agendamento: pelo telefone <a href="tel:+555139990000">(51) 3999-0000</a> ou pelo WhatsApp.</li>
+    <ul class="mb-0">
       <li>Janelas de coleta: 8h30, 10h30, 13h30 e 15h30.</li>
       <li>Devolução: até 3 horas após a coleta, mediante confirmação por telefone.</li>
       <li>Fora do raio de 8 km: acréscimo de R$ 3,00 por quilômetro adicional.</li>
     </ul>
-    <p><a href="contato.html">Agendar um serviço</a></p>
   </section>
 </main>
 
-<hr>
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
 
-<!-- ================= RODAPÉ ================= -->
-<footer>
-  <h2>Pata Amiga Petshop</h2>
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a><br>
-    CNPJ (fictício): 12.345.678/0001-90
-  </address>
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
 
-  <nav aria-label="Navegação do rodapé">
-    <p><a href="index.html">Início</a> &nbsp;|&nbsp; <a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="racoes.html">Rações</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="contato.html">Contato</a> &nbsp;|&nbsp; <a href="ajuda.html">Ajuda</a></p>
-  </nav>
+    <hr>
 
-  <p><small>
-    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
-    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
-    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
-    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
-    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
-    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
-    <a href="ajuda.html#privacidade">Política de privacidade</a>.
-  </small></p>
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/precos.js"></script>
+<script src="js/produtos.js"></script>
 
 </body>
 </html>
