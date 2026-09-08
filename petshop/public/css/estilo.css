@@ -1,0 +1,296 @@
+/* ==========================================================================
+   Pata Amiga Petshop - folha de estilo do projeto (Fase 2)
+   Complementa o Bootstrap 5.3: identidade visual, componentes próprios e
+   recursos de acessibilidade. Carregada sempre DEPOIS do bootstrap.min.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Variáveis de tema (paleta da marca)
+   -------------------------------------------------------------------------- */
+:root {
+  --pa-marrom: #4a2f18;
+  --pa-marrom-claro: #7a5230;
+  --pa-amarelo: #f2c14e;
+  --pa-amarelo-escuro: #d9a428;
+  --pa-creme: #fdf8ee;
+  --pa-texto: #241a12;
+
+  /* Sobrescreve tokens do Bootstrap para aplicar a identidade da marca */
+  --bs-body-bg: var(--pa-creme);
+  --bs-body-color: var(--pa-texto);
+  --bs-link-color: #8a4b12;
+  --bs-link-hover-color: #5b3a1e;
+  --bs-border-radius: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. Estrutura geral
+   -------------------------------------------------------------------------- */
+body {
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  /* mantém o rodapé no fim da página mesmo em páginas curtas */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h1, h2, h3, h4 {
+  color: var(--pa-marrom);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   3. Acessibilidade: link para pular navegação e foco visível
+   -------------------------------------------------------------------------- */
+
+/* O link "pular para o conteúdo" fica escondido até receber foco pelo teclado */
+.pular-conteudo {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 2000;
+  padding: 0.75rem 1.25rem;
+  background: var(--pa-marrom);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0;
+}
+
+.pular-conteudo:focus {
+  left: 0;
+}
+
+/* Contorno de foco reforçado em todos os elementos interativos */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #0b5ed7;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Texto visível apenas para leitores de tela (complemento ao .visually-hidden) */
+.somente-leitor {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   4. Cabeçalho e navegação
+   -------------------------------------------------------------------------- */
+.faixa-topo {
+  background-color: var(--pa-marrom);
+  color: #ffe9b8;
+  font-size: 0.9rem;
+}
+
+.faixa-topo a {
+  color: #ffe9b8;
+  text-decoration: underline;
+}
+
+.navbar-marca {
+  background-color: var(--pa-amarelo);
+  border-bottom: 4px solid var(--pa-marrom);
+}
+
+.navbar-marca .nav-link {
+  color: var(--pa-marrom);
+  font-weight: 600;
+}
+
+.navbar-marca .nav-link:hover,
+.navbar-marca .nav-link:focus {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* Página atual em destaque no menu */
+.navbar-marca .nav-link.active {
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.55);
+  border-radius: 0.5rem;
+}
+
+.navbar-brand img {
+  width: 44px;
+  height: 44px;
+}
+
+/* Indicador de loja aberta/fechada preenchido por JavaScript */
+#situacao-loja .badge {
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Carrossel da página inicial
+   -------------------------------------------------------------------------- */
+.carrossel-principal img {
+  height: 420px;
+  object-fit: cover;
+  filter: brightness(0.72);
+}
+
+.carrossel-principal .carousel-caption {
+  background: rgba(36, 26, 18, 0.72);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  bottom: 2.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .carrossel-principal img {
+    height: 260px;
+  }
+
+  .carrossel-principal .carousel-caption {
+    position: static;
+    background: var(--pa-marrom);
+    color: #fff;
+    border-radius: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Cartões de produtos e serviços
+   -------------------------------------------------------------------------- */
+.card-produto {
+  border: 1px solid #e4d5b7;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-produto:hover,
+.card-produto:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(74, 47, 24, 0.18);
+}
+
+.card-produto .foto-produto {
+  height: 220px;
+  object-fit: cover;
+  background-color: #fff;
+}
+
+.preco {
+  color: #146c43;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   7. Formulários
+   -------------------------------------------------------------------------- */
+.form-obrigatorio::after {
+  content: " *";
+  color: #b02a37;
+  font-weight: 700;
+}
+
+.resumo-agendamento {
+  background-color: #fff;
+  border: 2px dashed var(--pa-marrom-claro);
+}
+
+/* --------------------------------------------------------------------------
+   8. Rodapé
+   -------------------------------------------------------------------------- */
+.rodape {
+  background-color: var(--pa-marrom);
+  color: #f6ecd8;
+}
+
+.rodape a {
+  color: var(--pa-amarelo);
+}
+
+/* --------------------------------------------------------------------------
+   9. Recursos de acessibilidade acionados por JavaScript
+   -------------------------------------------------------------------------- */
+
+/* Tamanhos de fonte aumentados (botões A+ / A-) */
+html.fonte-grande {
+  font-size: 112.5%;
+}
+
+html.fonte-maior {
+  font-size: 125%;
+}
+
+/* Modo de alto contraste para pessoas com baixa visão */
+body.alto-contraste {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+body.alto-contraste h1,
+body.alto-contraste h2,
+body.alto-contraste h3,
+body.alto-contraste h4,
+body.alto-contraste p,
+body.alto-contraste li,
+body.alto-contraste label,
+body.alto-contraste td,
+body.alto-contraste th,
+body.alto-contraste .card,
+body.alto-contraste .form-text {
+  color: #fff !important;
+}
+
+body.alto-contraste .card,
+body.alto-contraste .resumo-agendamento,
+body.alto-contraste .table {
+  background-color: #111 !important;
+  border-color: #ffd400 !important;
+}
+
+body.alto-contraste .navbar-marca,
+body.alto-contraste .faixa-topo,
+body.alto-contraste .rodape {
+  background-color: #000 !important;
+  color: #ffd400 !important;
+  border-color: #ffd400 !important;
+}
+
+body.alto-contraste a,
+body.alto-contraste .nav-link,
+body.alto-contraste .rodape a {
+  color: #ffd400 !important;
+}
+
+body.alto-contraste .btn-primary,
+body.alto-contraste .btn-success {
+  background-color: #ffd400 !important;
+  border-color: #ffd400 !important;
+  color: #000 !important;
+}
+
+body.alto-contraste .preco {
+  color: #7CFC98 !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. Respeito à preferência de menos animações do sistema operacional
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .card-produto:hover {
+    transform: none;
+  }
+}
