@@ -9,7 +9,7 @@
 export class Desconto {
   #identificador;
 
-  /** @param {string} identificador texto gravado no registro (ex.: "Cliente Frequente") */
+  /** @param {string} identificador texto gravado no registro (ex.: "ClienteFrequente") */
   constructor(identificador) {
     if (new.target === Desconto) {
       throw new TypeError('Desconto é uma classe abstrata e não pode ser instanciada.');
