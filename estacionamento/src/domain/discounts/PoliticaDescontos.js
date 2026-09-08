@@ -11,7 +11,7 @@ import { DescontoClienteFrequente } from './DescontoClienteFrequente.js';
 export class PoliticaDescontos {
   #descontos;
 
-  /** @param {Desconto[]} [descontos] descontos ativos (por padrão, Cliente Frequente) */
+  /** @param {Desconto[]} [descontos] descontos ativos (por padrão, ClienteFrequente) */
   constructor(descontos = [new DescontoClienteFrequente()]) {
     this.#descontos = [];
     descontos.forEach((d) => this.registrar(d));
