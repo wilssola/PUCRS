@@ -1,13 +1,14 @@
 {
   "name": "estacionamento-estacme",
-  "version": "1.0.0",
-  "description": "Sistema de controle de estacionamento de veiculos de passeio - Fase 1 (Programacao Orientada a Objetos - PUCRS)",
+  "version": "2.0.0",
+  "description": "Sistema de controle de estacionamento de veiculos de passeio - Fases 1 e 2 (Programacao Orientada a Objetos - PUCRS)",
   "author": "Wilson Oliveira Lima",
   "license": "MIT",
   "type": "module",
   "main": "src/main.js",
   "scripts": {
     "start": "node src/main.js",
+    "demo": "node src/demo.js",
     "test": "node tests/testes.js"
   }
 }
