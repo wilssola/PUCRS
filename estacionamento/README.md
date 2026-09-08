@@ -1,4 +1,4 @@
-# Sistema de Controle de Estacionamento — EstACME (Fase 1)
+# Sistema de Controle de Estacionamento — EstACME (Fases 1 e 2)
 
 Projeto da disciplina **Programação Orientada a Objetos** — PUCRS.
 Autor: **Wilson Oliveira Lima**
@@ -11,17 +11,44 @@ gerenciais, com persistência em arquivos CSV.
 A implementação segue o documento complementar **“Sistema de Controle de Estacionamento”** e o
 diagrama de classes da **Figura 1**.
 
+| Fase | Escopo entregue |
+| --- | --- |
+| **Fase 1** | Diagrama de classes, classes de domínio (clientes, placas, tickets e descontos) e o controle de entrada, saída e cobrança, com herança, encapsulamento e polimorfismo. |
+| **Fase 2** | Interface com o usuário em menus, persistência em arquivos CSV (carga na inicialização, salvamento manual e automático) e os seis relatórios gerenciais, apoiados no uso obrigatório de `Set` e `Map`. |
+
 ## Como executar
 
 Requisito: Node.js 18 ou superior (nenhuma dependência externa).
 
 ```bash
-node src/main.js       # demonstração completa das regras   (npm start)
-node tests/testes.js   # 37 testes das regras de negócio    (npm test)
+node src/main.js       # sistema com interface de menus      (npm start)
+node src/demo.js       # demonstração automática das regras   (npm run demo)
+node tests/testes.js   # 44 testes automatizados              (npm test)
 ```
 
-`src/main.js` restaura o cenário de `seed-data/` em `data/`, executa a demonstração e salva os
-arquivos atualizados ao encerrar — por isso pode ser executado quantas vezes forem necessárias.
+`src/main.js` carrega `data/clientes.csv` e `data/registros.csv` (copiando o cenário inicial de
+`seed-data/` quando a pasta está vazia), abre os menus e grava os dados atualizados ao sair.
+
+`src/demo.js` executa um roteiro fixo que exercita todas as regras de negócio, sem interação, na
+pasta `data-demo/` — assim a demonstração nunca altera os dados reais.
+
+### Interface com o usuário
+
+```
+1. Clientes pré-cadastrados    listar, cadastrar (estudante/professor/empresa), adicionar e
+                               remover placas, remover cliente, recarregar créditos e
+                               emitir/vencer/quitar boletos de empresa
+2. Movimentação de veículos    registrar entrada, registrar saída com cobrança (inclusive recusa
+                               de pagamento), listar o pátio, consultar o histórico de uma placa
+                               e administrar a lista de bloqueio
+3. Relatórios gerenciais       os seis relatórios exigidos + um resumo consolidado
+4. Dados                       salvar agora, recarregar do disco e conferir o que está em memória
+0. Sair                        grava os arquivos CSV automaticamente
+```
+
+Toda a interação fica na classe `App` (a classe de interface da Figura 1), apoiada por `Terminal`,
+que concentra a leitura do teclado e a formatação da saída (menus, tabelas e mensagens). As regras
+de negócio continuam nas classes de domínio e de serviço.
 
 ## Estrutura do projeto
 
@@ -37,7 +64,9 @@ estacionamento/
 │   └── registros.csv
 ├── data/                          # dados em uso, gravados no encerramento
 ├── src/
-│   ├── app/App.js                       # interface com o usuário (classe App)
+│   ├── app/
+│   │   ├── App.js                       # interface com o usuário (classe App)
+│   │   └── Terminal.js                  # leitura do teclado e formatação da saída
 │   ├── domain/
 │   │   ├── clients/
 │   │   │   ├── Cliente.js               # classe abstrata (raiz da herança)
@@ -59,7 +88,9 @@ estacionamento/
 │   │   ├── CadastroClientes.js
 │   │   ├── RegistroDeEntradas_E_Saidas.js
 │   │   └── RelatoriosGerenciais.js
-│   └── main.js
+│   ├── demo.js                          # demonstração automática das regras
+│   └── main.js                          # inicia o sistema com a interface de menus
+├── data/                                # arquivos CSV em uso (cadastro e registros)
 ├── tests/testes.js
 └── package.json
 ```
@@ -148,13 +179,27 @@ Novos descontos são criados herdando de `Desconto` e registrados com
   - registros de clientes não cadastrados em determinado período;
   - relação dos clientes impedidos de entrar;
   - relação dos 10 clientes mais frequentes do ano.
-- Persistência em CSV: carga integral na inicialização, operações em memória e gravação automática
-  no encerramento (`clientes.csv` e `registros.csv`, nos formatos das Figuras 2 e 3 do documento).
+- Persistência em CSV: carga integral na inicialização, operações exclusivamente em memória e
+  gravação manual (menu *Dados*) ou automática (ao sair e ao interromper com Ctrl+C), nos formatos
+  das Figuras 2 e 3 do documento.
+
+## Persistência em arquivos CSV
+
+| Arquivo | Conteúdo | Formato |
+| --- | --- | --- |
+| `data/clientes.csv` | cadastro dos clientes pré-cadastrados | `cpf,nome,creditos,Estudante,placa` · `cpf,nome,Professor,placa1,placa2` · `cnpj,nome,debito,Empresa,placa1,...` |
+| `data/registros.csv` | tickets de estacionamento | `placa,entrada,saida,custo,desconto,pago` — registros ainda abertos ficam incompletos, como na Figura 3 |
+| `seed-data/` | cópia do cenário original das Figuras 2 e 3, usada para restaurar a demonstração | — |
+
+O ciclo é: **ler tudo na inicialização → operar em memória → gravar ao final**. Se um arquivo não
+existir, o sistema avisa e segue com o cadastro vazio; se a leitura falhar, a mensagem é exibida e o
+programa continua com o que conseguiu carregar.
 
 ## Testes
 
-`node tests/testes.js` executa 37 verificações automatizadas das regras: tarifas do avulso, virada de
+`node tests/testes.js` executa 44 verificações automatizadas: tarifas do avulso, virada de
 meia-noite, desconto ClienteFrequente (inclusive a terceira utilização, a repetição do benefício e a
-janela de cinco dias), lista de bloqueio, ingresso e saldo do estudante,
-gratuidade e limite de um veículo do professor, diária/multa/boleto da empresa, limites de placas,
-exceções e leitura/gravação dos CSV. Todos passam na versão entregue.
+janela de cinco dias), lista de bloqueio, ingresso e saldo do estudante, gratuidade e limite de um
+veículo do professor, diária/multa/boleto da empresa, limites de placas, exceções, leitura e
+gravação dos CSV, conversão de datas digitadas na interface e o ciclo completo de persistência
+(gravar em disco e recarregar em outra instância do sistema). Todos passam na versão entregue.
