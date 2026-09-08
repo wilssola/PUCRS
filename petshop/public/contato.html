@@ -6,160 +6,223 @@
   <meta name="author" content="Wilson Oliveira Lima">
   <meta name="description" content="Telefones, endereço, horários e formulário de contato do Pata Amiga Petshop.">
   <title>Contato | Pata Amiga Petshop</title>
+
+  <!-- Bootstrap 5.3 (arquivos hospedados no próprio site) -->
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <!-- Estilos próprios do projeto: identidade visual e acessibilidade -->
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 </head>
 <body>
-<!-- ================= CABEÇALHO ================= -->
+<!-- Link de atalho: primeiro elemento focável, para quem usa teclado -->
+<a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+<!-- ===================== FAIXA SUPERIOR (JavaScript) ===================== -->
+<div class="faixa-topo py-2">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2">
+    <p class="mb-0" id="relogio" role="status" aria-live="off">Carregando data e hora...</p>
+    <p class="mb-0" id="situacao-loja" role="status" aria-live="polite">Verificando o horário de atendimento...</p>
+
+    <div class="btn-group btn-group-sm" role="group" aria-label="Recursos de acessibilidade">
+      <button type="button" class="btn btn-outline-light" id="btn-diminuir-fonte"
+              title="Diminuir o tamanho do texto">A<span aria-hidden="true">-</span><span class="visually-hidden">Diminuir o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-aumentar-fonte"
+              title="Aumentar o tamanho do texto">A<span aria-hidden="true">+</span><span class="visually-hidden">Aumentar o tamanho do texto</span></button>
+      <button type="button" class="btn btn-outline-light" id="btn-contraste" aria-pressed="false"
+              title="Ativar ou desativar o alto contraste">Alto contraste</button>
+    </div>
+  </div>
+  <!-- Região que anuncia as mudanças de acessibilidade para leitores de tela -->
+  <p class="somente-leitor" id="aviso-acessibilidade" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ========================= CABEÇALHO E MENU ========================= -->
 <header>
-  <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: uma pegada de cão" width="110" height="110">
-  <h1>Pata Amiga Petshop</h1>
-  <p><strong>Tudo para o seu cão e o seu gato, do potinho ao banho.</strong></p>
-  <p>Loja física e atendimento a domicílio em Porto Alegre desde 2014.</p>
+  <nav class="navbar navbar-expand-lg navbar-marca" aria-label="Menu principal">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-dark fw-bold" href="index.html">
+        <img src="img/logo.svg" alt="Logotipo do Pata Amiga Petshop: pegada de cão em círculo amarelo">
+        <span>Pata Amiga <span class="d-none d-sm-inline">Petshop</span></span>
+      </a>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &nbsp;|&nbsp;
-    WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a>
-  </address>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menu-principal" aria-controls="menu-principal"
+              aria-expanded="false" aria-label="Abrir ou fechar o menu de navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <p>Horário de atendimento: segunda a sexta, das 8h às 19h &ndash; sábados, das 8h às 17h.</p>
+      <div class="collapse navbar-collapse" id="menu-principal">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
 
-  <!-- Menu principal de navegação, repetido em todas as páginas -->
-  <nav aria-label="Menu principal">
-    <h2>Navegação</h2>
-    <ul>
-      <li><a href="index.html">Início</a></li>
-      <li><a href="acessorios.html">Acessórios</a></li>
-      <li><a href="racoes.html">Rações</a></li>
-      <li><a href="higiene.html">Higiene e Limpeza</a></li>
-      <li><a href="servicos.html">Serviços</a></li>
-      <li><a href="contato.html" aria-current="page"><strong>Contato</strong></a></li>
-      <li><a href="ajuda.html">Ajuda</a></li>
-    </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menu-produtos" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+            <ul class="dropdown-menu" aria-labelledby="menu-produtos">
+              <li><a class="dropdown-item" href="acessorios.html">Acessórios</a></li>
+              <li><a class="dropdown-item" href="racoes.html">Rações</a></li>
+              <li><a class="dropdown-item" href="higiene.html">Higiene e Limpeza</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="agendamento.html">Agendamento</a></li>
+          <li class="nav-item"><a class="nav-link" href="cadastro.html">Cadastro</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="contato.html">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="ajuda.html">Ajuda</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-dark" href="agendamento.html">Agendar banho ou tosa</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 
-<hr>
-<main>
-  <h2>Fale com o Pata Amiga</h2>
-  <p>
-    Use os canais abaixo para reservar produtos, agendar banho e tosa ou tirar dúvidas sobre a tele-busca.
-    Respondemos as mensagens em até um dia útil.
+<main id="conteudo-principal" class="container py-5">
+  <h1>Fale com o Pata Amiga</h1>
+  <p class="lead">
+    Use os canais abaixo para reservar produtos, tirar dúvidas sobre a tele-busca ou falar com a
+    equipe de banho e tosa.
   </p>
 
-  <h3>Canais de atendimento</h3>
-  <dl>
-    <dt>Telefone da loja</dt>
-    <dd><a href="tel:+555139990000">(51) 3999-0000</a> &ndash; segunda a sexta, das 8h às 19h.</dd>
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <h2 class="h4">Canais de atendimento</h2>
+      <dl class="row">
+        <dt class="col-sm-4">Telefone</dt>
+        <dd class="col-sm-8"><a href="tel:+555139990000">(51) 3999-0000</a> &ndash; seg. a sex., 8h às 19h.</dd>
 
-    <dt>WhatsApp</dt>
-    <dd><a href="tel:+5551999990000">(51) 99999-0000</a> &ndash; agendamentos e tele-busca.</dd>
+        <dt class="col-sm-4">WhatsApp</dt>
+        <dd class="col-sm-8"><a href="tel:+5551999990000">(51) 99999-0000</a> &ndash; agendamentos.</dd>
 
-    <dt>E-mail</dt>
-    <dd><a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a></dd>
+        <dt class="col-sm-4">E-mail</dt>
+        <dd class="col-sm-8"><a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a></dd>
 
-    <dt>Endereço</dt>
-    <dd>Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício).</dd>
-  </dl>
+        <dt class="col-sm-4">Endereço</dt>
+        <dd class="col-sm-8">Rua das Patinhas, 250 &ndash; Jardim Feliz &ndash; Porto Alegre/RS.</dd>
+      </dl>
 
-  <hr>
+      <h2 class="h4">Como chegar</h2>
+      <ul>
+        <li>Ônibus: linhas que atendem a Rua das Patinhas, parada em frente ao número 250.</li>
+        <li>Carro: estacionamento gratuito para clientes, com 12 vagas.</li>
+        <li>Acessibilidade: entrada sem degraus e vaga reservada na porta da loja.</li>
+      </ul>
+    </div>
 
-  <h3>Formulário de contato</h3>
-  <p>
-    Preencha os campos abaixo. <em>Nesta Fase 1 o formulário é apenas a estrutura em HTML: o envio
-    das mensagens será programado na Fase 2, com JavaScript.</em>
-  </p>
+    <div class="col-lg-7">
+      <h2 class="h4">Formulário de contato</h2>
+      <div id="mensagem-contato" role="status" aria-live="polite" hidden></div>
 
-  <form action="#" method="post">
-    <fieldset>
-      <legend>Dados do tutor</legend>
+      <form id="form-contato" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="contato-nome">Nome completo</label>
+          <input type="text" class="form-control" id="contato-nome" name="nome" required
+                 minlength="5" autocomplete="name" placeholder="Seu nome">
+          <div class="invalid-feedback">Informe o seu nome.</div>
+        </div>
 
-      <p>
-        <label for="nome">Nome completo:</label><br>
-        <input type="text" id="nome" name="nome" size="40" required>
-      </p>
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="contato-email">E-mail</label>
+          <input type="email" class="form-control" id="contato-email" name="email" required
+                 autocomplete="email" placeholder="voce@exemplo.com">
+          <div class="invalid-feedback">Informe um e-mail válido.</div>
+        </div>
 
-      <p>
-        <label for="email">E-mail:</label><br>
-        <input type="email" id="email" name="email" size="40" required>
-      </p>
+        <div class="col-md-6">
+          <label class="form-label" for="contato-telefone">Telefone com DDD</label>
+          <input type="tel" class="form-control" id="contato-telefone" name="telefone"
+                 inputmode="tel" placeholder="(51) 99999-0000">
+        </div>
 
-      <p>
-        <label for="telefone">Telefone com DDD:</label><br>
-        <input type="tel" id="telefone" name="telefone" size="20" placeholder="(51) 99999-0000">
-      </p>
-    </fieldset>
+        <div class="col-md-6">
+          <label class="form-label form-obrigatorio" for="contato-assunto">Assunto</label>
+          <select class="form-select" id="contato-assunto" name="assunto" required>
+            <option value="">Selecione</option>
+            <option value="Reserva de produtos">Reserva de produtos</option>
+            <option value="Banho e tosa">Banho e tosa</option>
+            <option value="Tele-busca">Tele-busca</option>
+            <option value="Outros assuntos">Outros assuntos</option>
+          </select>
+          <div class="invalid-feedback">Escolha o assunto da mensagem.</div>
+        </div>
 
-    <fieldset>
-      <legend>Dados do atendimento</legend>
+        <div class="col-12">
+          <label class="form-label form-obrigatorio" for="contato-mensagem">Mensagem</label>
+          <textarea class="form-control" id="contato-mensagem" name="mensagem" rows="5" required
+                    minlength="10" placeholder="Escreva a sua dúvida ou pedido"></textarea>
+          <div class="invalid-feedback">Escreva uma mensagem com pelo menos 10 caracteres.</div>
+        </div>
 
-      <p>
-        <label for="assunto">Assunto:</label><br>
-        <select id="assunto" name="assunto">
-          <option value="produtos">Reserva de produtos</option>
-          <option value="banho">Agendamento de banho</option>
-          <option value="tosa">Agendamento de tosa</option>
-          <option value="duvida">Dúvidas em geral</option>
-        </select>
-      </p>
-
-      <p>
-        Deseja tele-busca (leva e traz)?<br>
-        <input type="radio" id="tele-sim" name="telebusca" value="sim">
-        <label for="tele-sim">Sim, acrescentar R$ 25,00</label><br>
-        <input type="radio" id="tele-nao" name="telebusca" value="nao" checked>
-        <label for="tele-nao">Não, levarei o animal até a loja</label>
-      </p>
-
-      <p>
-        <label for="mensagem">Mensagem:</label><br>
-        <textarea id="mensagem" name="mensagem" rows="6" cols="50"></textarea>
-      </p>
-    </fieldset>
-
-    <p>
-      <button type="submit">Enviar mensagem</button>
-      <button type="reset">Limpar campos</button>
-    </p>
-  </form>
-
-  <hr>
-
-  <h3>Como chegar</h3>
-  <ul>
-    <li>Ônibus: linhas que atendem a Rua das Patinhas, com parada em frente ao número 250.</li>
-    <li>Carro: estacionamento gratuito para clientes, com 12 vagas.</li>
-    <li>A pé: entrada principal pela Rua das Patinhas, ao lado da agência bancária.</li>
-  </ul>
+        <div class="col-12 d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+          <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>
 
-<hr>
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape mt-5 py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h2 class="h5">Pata Amiga Petshop</h2>
+        <address class="mb-2">
+          Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS &ndash; CEP 90000-000 (endereço fictício)<br>
+          Telefone: <a href="tel:+555139990000">(51) 3999-0000</a><br>
+          WhatsApp: <a href="tel:+5551999990000">(51) 99999-0000</a><br>
+          E-mail: <a href="mailto:contato@pataamiga.pet">contato@pataamiga.pet</a>
+        </address>
+        <p class="mb-0">CNPJ (fictício): 12.345.678/0001-90</p>
+      </div>
 
-<!-- ================= RODAPÉ ================= -->
-<footer>
-  <h2>Pata Amiga Petshop</h2>
+      <div class="col-md-4">
+        <h2 class="h5">Navegação</h2>
+        <ul class="list-unstyled mb-0">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acessorios.html">Acessórios</a></li>
+            <li><a href="racoes.html">Rações</a></li>
+            <li><a href="higiene.html">Higiene e Limpeza</a></li>
+            <li><a href="servicos.html">Serviços</a></li>
+            <li><a href="agendamento.html">Agendamento</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li><a href="ajuda.html">Ajuda</a></li>
+          </ul>
+      </div>
 
-  <address>
-    Rua das Patinhas, 250 &ndash; Bairro Jardim Feliz &ndash; Porto Alegre/RS<br>
-    Telefone: <a href="tel:+555139990000">(51) 3999-0000</a> &ndash;
-    E-mail: <a href="mailto:contato@pataamiga.net">contato@pataamiga.net</a><br>
-    CNPJ (fictício): 12.345.678/0001-90
-  </address>
+      <div class="col-md-4">
+        <h2 class="h5">Atendimento</h2>
+        <ul class="list-unstyled mb-0">
+          <li>Segunda a sexta: 8h às 19h</li>
+          <li>Sábados: 8h às 17h</li>
+          <li>Domingos e feriados: fechado</li>
+          <li>Tele-busca: em até 8 km da loja</li>
+        </ul>
+      </div>
+    </div>
 
-  <nav aria-label="Navegação do rodapé">
-    <p><a href="index.html">Início</a> &nbsp;|&nbsp; <a href="acessorios.html">Acessórios</a> &nbsp;|&nbsp; <a href="racoes.html">Rações</a> &nbsp;|&nbsp; <a href="higiene.html">Higiene e Limpeza</a> &nbsp;|&nbsp; <a href="servicos.html">Serviços</a> &nbsp;|&nbsp; <a href="ajuda.html">Ajuda</a></p>
-  </nav>
+    <hr>
 
-  <p><small>
-    Empresa, endereço e preços fictícios, criados apenas para fins didáticos.<br>
-    Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fase 1 do Projeto da disciplina
-    <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS, 2026.<br>
-    Imagens de terceiros publicadas sob licenças Creative Commons ou em domínio público;
-    os créditos completos estão na página <a href="ajuda.html#creditos">Ajuda</a>.<br>
-    &copy; 2026 Pata Amiga Petshop &ndash; Todos os direitos reservados.
-    <a href="ajuda.html#privacidade">Política de privacidade</a>.
-  </small></p>
+    <p class="mb-0"><small>
+      Empresa, endereço, CNPJ e preços fictícios, criados apenas para fins didáticos.
+      Site desenvolvido por <strong>Wilson Oliveira Lima</strong> &ndash; Fases 1 e 2 do Projeto da
+      disciplina <em>Fundamentos de Sistemas Web</em> &ndash; PUCRS.
+      Imagens de terceiros sob licenças Creative Commons ou em domínio público; créditos na página
+      <a href="ajuda.html#creditos">Ajuda</a>.
+      &copy; <span id="ano-atual">2026</span> Pata Amiga Petshop.
+      <a href="ajuda.html#privacidade">Política de privacidade</a>.
+    </small></p>
+  </div>
 </footer>
+
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/formularios.js"></script>
+<script src="js/contato.js"></script>
 
 </body>
 </html>
